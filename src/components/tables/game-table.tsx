@@ -3,7 +3,7 @@ import { useState } from "react";
 import { EyeInvisibleOutlined, UserDeleteOutlined } from "@ant-design/icons";
 import { gameData, DataType } from "../../assets/data/data.account-details";
 import { DeleteActionButtons } from "../cards/delete-action-card";
-import ServiceItemViewCard from "../cards/service-item-view-card";
+import GameItemViewCard from "../cards/service-item-view-card";
 
 export const GameListTable = () => {
   const [openAccountDetail, setOpenAccountDetail] = useState(false);
@@ -84,7 +84,7 @@ export const GameListTable = () => {
         onCancel={() => setOpenAccountDetail(false)}
         footer={null}
       >
-        <ServiceItemViewCard />
+        <GameItemViewCard />
       </Modal>
       <DeleteActionButtons
         open={deleteUser}

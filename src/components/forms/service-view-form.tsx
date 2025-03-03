@@ -2,7 +2,7 @@ import { Button, Form, Input, notification, Select } from "antd";
 import { Option } from "antd/es/mentions";
 
 export const ServiceViewForm = ({
-  serviceName,
+  serviceName: gameName,
   status,
 }: {
   serviceName: string;
@@ -46,11 +46,11 @@ export const ServiceViewForm = ({
         autoComplete="off"
       >
         <Form.Item
-          name="serviceName"
-          label="Service Name"
+          name="game_name"
+          label="Game Name"
           rules={[{ type: "string", min: 6 }]}
         >
-          <Input placeholder="input placeholder" defaultValue={serviceName} />
+          <Input placeholder="input placeholder" defaultValue={gameName} />
         </Form.Item>
         <Form.Item
           name="status"
@@ -76,7 +76,7 @@ export const ServiceViewForm = ({
               style={{
                 width: "100%",
                 background:
-                  "linear-gradient(to right, #9D0DFE , #AA7AD6,  #E6E6FA)",
+                  "linear-gradient(to right, #DA5DA3 ,#5B428A)",
                 color: "#FDFDFD",
               }}
             >
