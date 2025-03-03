@@ -10,6 +10,7 @@ import {
 } from "antd";
 import { Link } from "react-router-dom";
 import { EyeInvisibleOutlined } from "@ant-design/icons";
+import { PrimaryButton } from "../primary-button";
 
 export const LoginForm: React.FC = () => {
   const [form] = Form.useForm();
@@ -93,13 +94,12 @@ export const LoginForm: React.FC = () => {
         </div>
 
         <Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            style={{ width: "100%", background: "#9D0DFE" }}
+          <PrimaryButton
+            type="button"
+            styles={{ width: "100%", }}
           >
             Submit
-          </Button>
+          </PrimaryButton>
         </Form.Item>
       </Form>
     </>

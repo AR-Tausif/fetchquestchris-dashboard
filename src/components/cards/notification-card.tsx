@@ -1,12 +1,14 @@
 import { BellOutlined } from "@ant-design/icons";
 import "./styles/notification-card.css";
+import { theme } from "antd";
 export const NotificationCard = () => {
+  const { token } = theme.useToken()
   return (
     <div className="notification_card">
       <div
         style={{
           padding: "8px 10px",
-          background: "#A011FF",
+          background: token.colorPrimary,
           color: "#fdfdfd",
           fontSize: 24,
           borderRadius: 8,
