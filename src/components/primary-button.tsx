@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, theme } from "antd";
 import { MouseEventHandler, ReactNode } from "react";
 
 export const PrimaryButton = ({
@@ -14,14 +14,15 @@ export const PrimaryButton = ({
   styles?: object;
   onClick?: MouseEventHandler<HTMLElement> | undefined;
 }) => {
+  const { token } = theme.useToken()
   return (
     <Button
       htmlType={type}
       style={{
-        background: "linear-gradient(to right, #9D0DFE , #AA7AD6,  #E6E6FA)",
-        color: "#FDFDFD",
-        outline:"none",
-        border:"none",
+        background: "linear-gradient(to right, #DA5DA3 , #5B428A)",
+        color: token.colorWhite,
+        outline: "none",
+        border: "none",
         ...styles,
       }}
       className={className}

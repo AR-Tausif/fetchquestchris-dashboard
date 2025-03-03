@@ -41,11 +41,11 @@ export const ServiceUploadForm: React.FC = () => {
         autoComplete="off"
       >
         <Form.Item
-          name="service_name"
-          label="Service Name"
+          name="game_name"
+          label="Game Name"
           rules={[{ type: "string", min: 6 }]}
         >
-          <Input placeholder="Enter Service Name" />
+          <Input placeholder="Enter Game Name" />
         </Form.Item>
         <Form.Item
           name="status"

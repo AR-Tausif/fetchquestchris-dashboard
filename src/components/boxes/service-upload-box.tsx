@@ -1,7 +1,7 @@
 import React from "react";
 import { InboxOutlined } from "@ant-design/icons";
 import type { UploadProps } from "antd";
-import { message, Upload } from "antd";
+import { message, theme, Upload } from "antd";
 import "./styles/service-upload-box.css";
 const { Dragger } = Upload;
 
@@ -25,22 +25,25 @@ const props: UploadProps = {
   },
 };
 
-export const ServiceUploadBox: React.FC = () => (
-  <Dragger
-    {...props}
-    style={{ height: "52px", background: "#A011FF", color: "#FDFDFD" }}
-  >
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-      }}
+export const ServiceUploadBox: React.FC = () => {
+  const {token} = theme.useToken()
+  return (
+    <Dragger
+      {...props}
+      style={{ height: "52px", background: token.colorPrimary, color: token.colorWhite }}
     >
-      <p className="ant-upload-drag-icon">
-        <InboxOutlined style={{ color: "#fdfdfd", marginTop: 10 }} />
-      </p>
-      <p style={{ fontSize: 25, fontWeight: 500 }}>Upload Service Image</p>
-    </div>
-  </Dragger>
-);
+      <div
+        style={{
+          // display: "flex",
+          // alignItems: "center",
+          // gap: 10,
+        }}
+      >
+        <p className="ant-upload-drag-icon">
+          <InboxOutlined style={{ color: token.colorWhite, marginTop: 10 }} />
+        </p>
+        <p style={{ fontSize: 25, fontWeight: 500 }}>Upload Game Image</p>
+      </div>
+    </Dragger>
+  )
+};

@@ -1,6 +1,6 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Form, Input, Modal, Select, theme } from "antd";
-import { CreateServiceCard, ServiceListTable } from "../components";
+import { CreateServiceCard, GameListTable } from "../components";
 import { Option } from "antd/es/mentions";
 import { useState } from "react";
 import { months } from "../assets/data";
@@ -90,7 +90,7 @@ export const GameList = () => {
           </Form.Item>
         </Form>
       </div>
-      <ServiceListTable />
+      <GameListTable />
       <Modal
         centered
         open={openResponsive}
