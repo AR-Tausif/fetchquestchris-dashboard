@@ -10,3 +10,4 @@ export { ForgotPassword } from "./forgot-password";
 export { SetPassword } from "./set-password";
 export { TermsOfUse } from "./terms-of-use";
 export { ProductPrice } from "./product-price";
+export { Blog } from "./blogs";

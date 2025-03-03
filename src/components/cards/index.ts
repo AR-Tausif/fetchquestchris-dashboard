@@ -5,3 +5,4 @@ export { SubscriptionCard } from "./subscription-card";
 export { DisputedReviewCard } from "./disputed-review-card";
 export { NotificationCard } from "./notification-card";
 export { PostCard } from "./post-card";
+export { BlogCard } from "./blog-card";

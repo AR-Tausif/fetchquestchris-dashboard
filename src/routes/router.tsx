@@ -12,6 +12,7 @@ import {
   TermsOfUse,
   GameList,
   ProductPrice,
+  Blog
 } from "../pages";
 import App from "../App";
 
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/game-list",
         element: <GameList />,
+      },
+      {
+        path: "/blogs",
+        element: <Blog />,
       },
       {
         path: "/product-price",

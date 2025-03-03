@@ -50,6 +50,12 @@ const sidebarItems = [
     path: "/game-list",
   },
   {
+    key: "/blogs",
+    icon: <ProductOutlined />,
+    label: "Blog",
+    path: "/blogs",
+  },
+  {
     key: "/product-price",
     icon: <DollarOutlined />,
     label: "Products",

@@ -23,9 +23,9 @@ createRoot(document.getElementById("root")!).render(
             borderRadius: 6,
           },
           components: {
-            Card: {
-              colorBgContainer: '#DA5DA3',
-            },
+            // Card: {
+            //   colorBgContainer: '#DA5DA3',
+            // },
             Select: {
               colorBorder: 'transparent',
               controlOutline: 'none',
