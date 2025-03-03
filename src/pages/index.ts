@@ -3,8 +3,6 @@ export { AccountDetails } from "./account-details";
 export { AccountDetailsById } from "./account-details-by-id";
 export { GameList } from "./game-list";
 export { Login } from "./login";
-export { Earning } from "./earning";
-export { ManageSubscription } from "./manage-subscription";
 export { Setting } from "./setting";
 export { Profile } from "./profile";
 export { Notification } from "./notification";

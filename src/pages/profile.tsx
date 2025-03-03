@@ -50,7 +50,7 @@ export const Profile = () => {
   return (
     <div className="w-[80%] min-h-[90vh] mx-auto bg-[#fdfdfd]">
       <section
-        className="flex-center gap-x-3 bg-linear-to-r from-[#9D0DFE] via-[#AA7AD6] to-[#E6E6FA]"
+        className="flex-center gap-x-3 bg-linear-to-r from-[#DA5DA3] via-[#AA7AD6] to-[#5B428A]"
         style={{
           padding: 10,
         }}
@@ -93,7 +93,7 @@ export const Profile = () => {
         </div>
 
         <div>
-          <h3 className="text-3xl !font-semibold text-white">
+          <h3 className="text-3xl !font-semibold text-white uppercase">
             {"Tausif Ahmed"}
           </h3>
           <p className="mt-1 text-lg font-medium text-white">{"Admin"}</p>
