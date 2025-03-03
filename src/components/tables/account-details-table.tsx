@@ -4,11 +4,7 @@ import { useState } from "react";
 import { DeleteActionButtons } from "../cards/delete-action-card";
 import { UserDetailsModal } from "../modals";
 
-
-const { Option } = Select;
-
 export const AccountDetailsTable = () => {
-  const [accountTypeFilter, setAccountTypeFilter] = useState("all");
   const [deleteUser, setDeleteUser] = useState(false);
   const [openAccountDetail, setOpenAccountDetail] = useState(false);
   const [modalShowUser, setModalShowUser] = useState<any | null>(null);
@@ -19,7 +15,7 @@ export const AccountDetailsTable = () => {
       serial: "#01",
       name: "Diana Doxy",
       email: "diana@gmail.com",
-      accountType: "Service Provider",
+
       date: "11 oct 2024",
       avatar:
         "https://www.perfocal.com/blog/content/images/2021/01/Perfocal_17-11-2019_TYWFAQ_100_standard-3.jpg",
@@ -29,7 +25,7 @@ export const AccountDetailsTable = () => {
       serial: "#02",
       name: "Robert Fox",
       email: "robert.fox@gmail.com",
-      accountType: "User",
+
       date: "11 oct 2024",
       avatar:
         "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHByb2ZpbGUlMjBwaWN0dXJlfGVufDB8fDB8fHww",
@@ -39,7 +35,7 @@ export const AccountDetailsTable = () => {
       serial: "#03",
       name: "Rian Bin Kashem",
       email: "rian.kashem@gmail.com",
-      accountType: "Service Provider",
+
       date: "11 oct 2024",
       avatar:
         "https://writestylesonline.com/wp-content/uploads/2016/08/Follow-These-Steps-for-a-Flawless-Professional-Profile-Picture-Thumbnail.jpg",
@@ -49,7 +45,7 @@ export const AccountDetailsTable = () => {
       serial: "#04",
       name: "William Hanry",
       email: "bilgates.personal@gmail.com",
-      accountType: "User",
+
       date: "11 oct 2024",
       avatar:
         "https://www.shutterstock.com/image-photo/photo-beautiful-young-business-woman-260nw-1906641364.jpg",
@@ -57,7 +53,6 @@ export const AccountDetailsTable = () => {
   ];
 
   const handleUserShow = (userData: any) => {
-    // console.log(userData.record, "sss");
     const users = data.find(
       (user: any) => user.key == userData.record.key
     );
@@ -94,22 +89,7 @@ export const AccountDetailsTable = () => {
       dataIndex: "email",
       key: "email",
     },
-    {
-      title: (
-        <div className="account-type-header">
-          <span>Account Type</span>
-          <Select
-            onChange={setAccountTypeFilter}
-            className="account-type-filter"
-          >
-            <Option value="service-provider">Service Provider</Option>
-            <Option value="user">User</Option>
-          </Select>
-        </div>
-      ),
-      dataIndex: "accountType",
-      key: "accountType",
-    },
+
     {
       title: "Date",
       dataIndex: "date",
@@ -134,20 +114,13 @@ export const AccountDetailsTable = () => {
     },
   ];
 
-  const filteredData = data.filter((item) =>
-    accountTypeFilter === "all"
-      ? true
-      : accountTypeFilter === "service-provider"
-      ? item.accountType === "Service Provider"
-      : item.accountType === "User"
-  );
+
 
   return (
     <div className="user-table-container">
       <Table
         columns={columns}
-        dataSource={filteredData}
-        // pagination={false}
+        dataSource={data}
         className="custom-table"
       />
       <UserDetailsModal

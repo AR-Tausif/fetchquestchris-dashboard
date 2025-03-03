@@ -9,11 +9,11 @@ import {
   ManageSubscription,
   Notification,
   Profile,
-  Service,
   Setting,
   ForgotPassword,
   SetPassword,
   TermsOfUse,
+  GameList,
 } from "../pages";
 import App from "../App";
 import { Earning } from "../pages/earning";
@@ -39,8 +39,8 @@ const router = createBrowserRouter([
         element: <AccountDetailsById />,
       },
       {
-        path: "/service",
-        element: <Service />,
+        path: "/game-list",
+        element: <GameList />,
       },
       {
         path: "/earning",

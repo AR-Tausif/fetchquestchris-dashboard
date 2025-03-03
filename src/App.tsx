@@ -44,10 +44,10 @@ const sidebarItems = [
     path: "/account-details",
   },
   {
-    key: "/service",
+    key: "/game-list",
     icon: <ProductOutlined />,
-    label: "Service",
-    path: "/service",
+    label: "Game List",
+    path: "/game-list",
   },
   {
     key: "/earning",

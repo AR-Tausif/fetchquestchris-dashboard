@@ -343,12 +343,12 @@ export const accountDetailData = userArray.map((user, index) => ({
   amount: 30.0,
   action: "Edit",
 }));
-export const serviceData = userArray.map((user, index) => ({
+export const gameData = userArray.map((user, index) => ({
   key: index.toString(),
   serial: `#${index}`,
   image: user.photo,
-  serviceName: user.fullName,
-  status: user.email.slice(0, user.email.indexOf("@")),
+  gamename: "Sports & Racing",
+  status: (index % 2) === 0 ? "Active" : "Inactive",
   date: "2022-01-15",
   action: "Edit",
 }));

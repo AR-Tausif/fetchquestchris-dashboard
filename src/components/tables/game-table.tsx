@@ -1,11 +1,11 @@
 import { Modal, Table, TableColumnsType } from "antd";
 import { useState } from "react";
 import { EyeInvisibleOutlined, UserDeleteOutlined } from "@ant-design/icons";
-import { serviceData, DataType } from "../../assets/data/data.account-details";
+import { gameData, DataType } from "../../assets/data/data.account-details";
 import { DeleteActionButtons } from "../cards/delete-action-card";
 import ServiceItemViewCard from "../cards/service-item-view-card";
 
-export const ServiceListTable = () => {
+export const GameListTable = () => {
   const [openAccountDetail, setOpenAccountDetail] = useState(false);
   const [deleteUser, setDeleteUser] = useState(false);
 
@@ -16,13 +16,13 @@ export const ServiceListTable = () => {
       align: "center",
     },
     {
-      title: "Image",
+      title: "Game",
       dataIndex: "image",
       align: "center",
       render: (_text: string, record: DataType) => (
         <div style={styles.imageContainer}>
           <img
-            src="https://digitalreach.asia/wp-content/uploads/2021/11/placeholder-image.png"
+            src="https://s3-alpha-sig.figma.com/img/6b66/731b/360e0c3606af3f363e3650077dcced85?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=nbc7p4PGHntpTAiSuMdv3cZUPTROOP3H0iu1PM60EOZbmHeIA67vXXWYpwyV-LBGWZr2YNyXcVzMVQlxv47QRdrPP0vlt3iabFhM9RfTQ41kMWA6laoIT3fMAcW-B7u8rqgohCkxmQ2lYihLCOQOlkZZ-p~TNMLDHTsqjh7IzEMoS4vvhaVPbeI8vG76bUtIU93DTjvdTp-IeEhQxa6KwtrTBOhHeqfKc~6fLq2muGl0tvRsznn1TtfrMopfdTAT9duxY4rwBs5MSnHstyUtyye-yevPvMUKsv4CAd0rL3e5yEoE~aZ2ODb5je7TN7z0L0LcUQqgU97cHo~8agJBDw__"
             alt={record.name}
             style={styles.image}
           />
@@ -30,8 +30,8 @@ export const ServiceListTable = () => {
       ),
     },
     {
-      title: "Service Name",
-      dataIndex: "serviceName",
+      title: "Game Name",
+      dataIndex: "gamename",
       align: "center",
     },
     {
@@ -40,7 +40,7 @@ export const ServiceListTable = () => {
       align: "center",
       render: (status) => (
         <div style={styles.statusContainer}>
-          <div style={styles.statusBadge}>{status}</div>
+          <div style={status == "Active" ? styles.statusActiveBadge : styles.statusInactiveBadge}>{status}</div>
         </div>
       ),
     },
@@ -73,7 +73,7 @@ export const ServiceListTable = () => {
     <>
       <Table<DataType>
         columns={columns}
-        dataSource={serviceData}
+        dataSource={gameData}
         size="middle"
         style={styles.table}
       />
@@ -84,7 +84,7 @@ export const ServiceListTable = () => {
         onCancel={() => setOpenAccountDetail(false)}
         footer={null}
       >
-       <ServiceItemViewCard/>
+        <ServiceItemViewCard />
       </Modal>
       <DeleteActionButtons
         open={deleteUser}
@@ -114,13 +114,21 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
   },
-  statusBadge: {
+  statusActiveBadge: {
     background: "#D6FEEB7D",
-    padding: "8px 12px",
+    padding: "2px 12px",
     borderRadius: "8px",
     border: "1px solid #498A6C",
     color: "#498A6C",
-    fontWeight: 700,
+    fontSize:16
+  },
+  statusInactiveBadge: {
+    background: "#FE585814",
+    padding: "2px 12px",
+    borderRadius: "8px",
+    border: "1px solid #FE5858",
+    color: " #FE5858",
+    fontSize:16
   },
   actionContainer: {
     display: "flex",

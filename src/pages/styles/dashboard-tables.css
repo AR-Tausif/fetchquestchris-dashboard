@@ -33,17 +33,14 @@
     gap: 8px;
   }
   
-  .account-type-header {
+  /* .account-type-header {
     display: flex;
     align-items: center;
     gap: 8px;
-  }
-  
+  } 
   .account-type-filter {
     max-width: 140px !important;
     width: 40px !important;
-    /* background-color: #a855f7 !important; */
-    /* border-color: #9333ea !important; */
   }
   .account-type-filter .ant-select-selection-item {
     display: none !important;
@@ -61,7 +58,7 @@
   .account-type-filter .ant-select-arrow {
     color: var(--primary-white-color) !important;
   }
-  
+   */
   .action-buttons {
     display: flex;
     gap: 12px;

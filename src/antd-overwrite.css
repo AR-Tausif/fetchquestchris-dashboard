@@ -1,45 +1,45 @@
 /* Ant design overwrite css styles here */
 
 /*-------------- layout content styles --------------- */
-.ant-layout-content{
+.ant-layout-content {
   padding: 0;
 }
+
 .ant-input {
-    /* border-color: #a011ff; */
-    padding: 10px !important;
-  }
-  /* .ant-input:hover {
+  padding: 10px !important;
+}
+
+/* .ant-input:hover {
     border-color: #a011ff;
     outline: 0;
     -webkit-box-shadow: 0 0 0 2px rgba(87, 168, 233, 0.2);
     box-shadow: 0 0 0 2px rgba(87, 168, 233, 0.2);
   } */
-  /* .ant-input:focus {
+/* .ant-input:focus {
     border-color: #a011ff;
     outline: 0;
     -webkit-box-shadow: 0 0 0 2px rgba(160, 17, 255, 0.164);
     box-shadow: 0 0 0 2px rgba(160, 17, 255, 0.219);
   } */
-  /* accoutn details table css */
-  .ant-pagination-item a {
-    color: #a011ff !important;
-    padding: 10px;
-  }
-  
-  .ant-pagination-item a {
-    color: #a011ff !important;
-  }
-  
-  .ant-pagination-item-active {
-    background: #a011ff !important;
-    /* color: #efefef; */
-  }
-  .ant-pagination-item-active a {
-    color: #fdfdfd !important;
-  }
-  .ant-select-single{
-    height: 44px;
-  }
-  /* .user-table-container{
-    overflow: hidden !important;
-  } */
+/* accoutn details table css */
+.ant-pagination-item a {
+  color: var(--primary-color) !important;
+  padding: 10px;
+}
+
+.ant-pagination-item a {
+  color: var(--primary-color) !important;
+}
+
+.ant-pagination-item-active {
+  background: var(--primary-color) !important;
+  /* color: #efefef; */
+}
+
+.ant-pagination-item-active a {
+  color: var(--primary-white-color) !important;
+}
+
+.ant-select-single {
+  height: 44px;
+}
