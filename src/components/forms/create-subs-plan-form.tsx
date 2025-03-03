@@ -30,11 +30,11 @@ export function CreateSubsPlanForm() {
       {contextHolder}
       <Form form={form} layout="vertical" onFinish={onFinish}>
         <Form.Item
-          label="Subscription Name"
-          name="subscriptionName"
+          label="Product Name"
+          name="productName"
           rules={[{ message: "Please input the title of collection!" }]}
         >
-          <Input placeholder="Enter Subscription Name" />
+          <Input placeholder="Enter Product Name" />
         </Form.Item>
         <Form.Item name="description" label="Short Description">
           <TextArea

@@ -30,15 +30,15 @@ export function UpdateSubsPlanForm() {
       {contextHolder}
       <Form form={form} layout="vertical" onFinish={onFinish}>
         <Form.Item
-          label="Subscription Name"
-          name="subscription_name"
+          label="Game Name"
+          name="game_name"
           rules={[
-            { message: "Please input the subscription name of collection!" },
+            { message: "Please input the game name of collection!" },
           ]}
         >
           <Input
-            placeholder="Enter Subscription Name"
-            defaultValue="Model King"
+            placeholder="Enter Game Name"
+            defaultValue="Sports & Racing"
           />
         </Form.Item>
         <Form.Item name="description" label="Short Description">

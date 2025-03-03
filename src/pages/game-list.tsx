@@ -65,7 +65,7 @@ export const GameList = () => {
     <div style={styles.container}>
       <div style={styles.addButton} onClick={() => setOpenResponsive(true)}>
         <PlusCircleOutlined style={styles.icon} />
-        <p>Add new service</p>
+        <p>Add new list</p>
       </div>
       <div>
         <h2 style={styles.title}>Service List</h2>

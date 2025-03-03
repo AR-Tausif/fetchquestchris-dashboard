@@ -3,10 +3,8 @@ import {
   AccountDetails,
   AccountDetailsById,
   Dashboard,
-  DisputedReview,
-  DisputedReviewById,
+
   Login,
-  ManageSubscription,
   Notification,
   Profile,
   Setting,
@@ -14,9 +12,9 @@ import {
   SetPassword,
   TermsOfUse,
   GameList,
+  ProductPrice,
 } from "../pages";
 import App from "../App";
-import { Earning } from "../pages/earning";
 
 import { AuthWrapper } from "../components/auth-wrapper";
 import Demo from "../pages/demo";
@@ -43,20 +41,8 @@ const router = createBrowserRouter([
         element: <GameList />,
       },
       {
-        path: "/earning",
-        element: <Earning />,
-      },
-      {
-        path: "/manage-subscription",
-        element: <ManageSubscription />,
-      },
-      {
-        path: "/disputed-reviews",
-        element: <DisputedReview />,
-      },
-      {
-        path: "/disputed-reviews/:id",
-        element: <DisputedReviewById />,
+        path: "/product-price",
+        element: <ProductPrice />,
       },
       {
         path: "/privacy-policy",

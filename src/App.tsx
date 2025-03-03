@@ -50,23 +50,12 @@ const sidebarItems = [
     path: "/game-list",
   },
   {
-    key: "/earning",
+    key: "/product-price",
     icon: <DollarOutlined />,
-    label: "Earnings",
-    path: "/earning",
+    label: "Products",
+    path: "/product-price",
   },
-  {
-    key: "/manage-subscription",
-    icon: <CrownOutlined />,
-    label: "Manage Subscription",
-    path: "/manage-subscription",
-  },
-  {
-    key: "/disputed-reviews",
-    icon: <FileDoneOutlined />,
-    label: "Disputed Reviews",
-    path: "/disputed-reviews",
-  },
+  
   {
     key: "/Setting",
     icon: <SettingOutlined />,

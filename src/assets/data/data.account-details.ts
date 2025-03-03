@@ -352,6 +352,16 @@ export const gameData = userArray.map((user, index) => ({
   date: "2022-01-15",
   action: "Edit",
 }));
+export const productData = userArray.map((user, index) => ({
+  key: index.toString(),
+  serial: `#${index}`,
+  image: user.photo,
+  price: "$100",
+  product: "Sports & Racing",
+  status: (index % 2) === 0 ? "Sell" : "On going",
+  date: "2022-01-15",
+  action: "Edit",
+}));
 
 export const d = [
   {
