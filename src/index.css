@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap");
+@import "tailwindcss";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Urbanist", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+}
+
+body {
+  font-family: "Urbanist", sans-serif;
+  background-color: #f0f0f0;
+  color: #010101;
+}
+button {
+  border: none;
+  outline: none;
+}
+
+/* .ant-layout-content{
+  margin: 1px !important;
+  border-radius: 1px !important;
+  border-top-left-radius: 8px !important;
+} */
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -1,0 +1,88 @@
+
+/*
+.ant-layout-content {
+  background: #000;
+}
+.app-layout .ant-select-arrow {
+  color: #010101;
+} */
+
+/* header section styles here */
+
+/* For Sider */
+/* .ant-layout-sider {
+  flex: 0 0 300px !important;
+  width: 300px !important;
+  max-width: 300px !important;
+  padding: 0 20px;
+  background-color: #fdfdfd !important;
+}
+
+.app-sider .ant-menu {
+  border: none !important;
+}
+
+.app-sider .ant-menu-item,
+.app-sider .ant-menu-submenu {
+  background-color: #e6e6fa !important;
+  color: #000 !important;
+  font-size: 18px;
+  padding: 21px !important;
+  margin-top: 10px !important;
+  height: 48px !important;
+  border-radius: 8px;
+}
+
+.app-sider .anticon {
+  font-size: 24px !important;
+}
+
+.app-sider .ant-menu-item-selected {
+  background-color: #a011ff !important;
+  color: #dcddde !important;
+} */
+
+/* For Sider */
+.app-layout {
+  background: #fdfdfd !important;
+  width: 100vw;
+  overflow: hidden;
+  min-height: 100vh;
+}
+.app-layout .ant-menu-item {
+  background-color: #e6e6fa !important;
+  padding-top: 25px !important;
+  padding-bottom: 25px !important;
+}
+/* .app-layout .ant-menu-item::after {
+  background-color: #e6e6fa !important;
+  padding-top: 25px !important;
+  padding-bottom: 25px !important;
+} */
+.app-layout .ant-menu-submenu {
+  background-color: #e6e6fa !important;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
+.app-layout .ant-menu-item-selected {
+  background-color: #a011ff !important;
+  color: #dcddde !important;
+}
+
+.ant-menu-inline-collapsed > .ant-menu-item {
+  padding-top: 0px !important;
+}
+.myClass {
+  flex: 0 0 300px !important;
+  max-width: 300px !important;
+  padding: 0 20px;
+}
+
+/* @media only screen and (min-width: 768px) {
+  .app-layout .ant-layout-sider {
+    flex: "0 0 800px !important";
+    width: "300px !important";
+    max-width: "300px !important";
+    padding: "0 20px";
+  }
+} */

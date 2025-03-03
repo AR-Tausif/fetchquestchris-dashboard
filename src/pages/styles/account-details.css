@@ -1,0 +1,62 @@
+.account-grid {
+  display: grid;
+  grid-template-columns: 4fr 4fr; /* Replicates the original 10/14 span ratio */
+  gap: 16px;
+  width: 100%;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.post-container {
+  height: 400px;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-info {
+  display: flex;
+  gap: 10px;
+}
+
+.user-image {
+  width: 37px;
+  height: 37px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-details .studio-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.location {
+  display: flex;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #727272;
+}
+
+.map-icon {
+  margin-top: 3px;
+}
+
+.address {
+  font-weight: 700;
+}
+
+.delete-icon {
+  font-size: 16px;
+  color: #010101;
+}
+
+

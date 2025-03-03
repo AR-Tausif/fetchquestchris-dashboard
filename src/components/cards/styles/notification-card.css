@@ -1,0 +1,12 @@
+.notification_card {
+  display: flex;
+  justify-content: start;
+  gap: 16px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  transition: all 0.7s;
+}
+.notification_card:hover {
+  background: #e6e6fa;
+  cursor: pointer;
+}

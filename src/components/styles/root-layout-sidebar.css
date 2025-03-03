@@ -1,0 +1,34 @@
+/* 
+.ant-layout-sider {
+    flex: 0 0 300px !important;
+    width: 300px !important; 
+    max-width: 300px !important;
+    padding: 0 20px;
+    background-color: #fdfdfd !important;
+  }
+  
+
+  .app-sider .ant-menu {
+    border: none !important;
+  }
+  
+  .app-sider .ant-menu-item,
+  .app-sider .ant-menu-submenu {
+    background-color: #e6e6fa !important;
+    color: #000 !important;
+    font-size: 18px;
+    padding: 21px !important;
+    margin-top: 10px !important;
+    height: 48px !important;
+    border-radius: 8px;
+  }
+  
+  .app-sider .anticon {
+    font-size: 24px !important;
+  }
+  
+  .app-sider .ant-menu-item-selected {
+    background-color: #a011ff !important;
+    color: #dcddde !important;
+  }
+   */
