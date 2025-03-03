@@ -11,18 +11,31 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
 
-    <ConfigProvider
-      theme={{
-        token: {
-          borderRadius:4
-          // colorPrimary: "#FDFDFD",
-          // colorBgContainer: "#A011FF",
-        },
-        hashed: false,
-      }}
+      <ConfigProvider
+        theme={{
+          token: {
+            fontSize: 16,
+            colorWhite: '#FDFDFD',
+            colorPrimary: '#DA5DA3',
+            colorBgContainer: '#FDFDFD',
+            colorText: '#010101',
+            colorTextBase: '#010101',
+            borderRadius: 6,
+          },
+          components: {
+            Card: {
+              colorBgContainer: '#DA5DA3',
+            },
+            Select: {
+              colorBorder: 'transparent',
+              controlOutline: 'none',
+            },
+          },
+          hashed: false,
+        }}
       >
-      <RouterProvider router={router} />
-    </ConfigProvider>
-      </Provider>
+        <RouterProvider router={router} />
+      </ConfigProvider>
+    </Provider>
   </StrictMode>
 );

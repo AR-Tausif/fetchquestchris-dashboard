@@ -1,7 +1,9 @@
+import { theme } from "antd";
 import { useState } from "react";
 import ReactApexChart from "react-apexcharts";
-
+const { useToken } = theme
 export const DashboardColumnChart = () => {
+  const { token } = useToken();
   const [state] = useState({
     series: [
       {
@@ -65,18 +67,18 @@ export const DashboardColumnChart = () => {
         },
       },
       colors: [
-        "#A011FF",
-        "#A011FF",
-        "#A011FF",
-        "#A011FF",
-        "#A011FF",
-        "#A011FF", // Jan to Jun
-        "#A011FF",
-        "#A011FF",
-        "#A011FF",
-        "#A011FF",
-        "#A011FF",
-        "#A011FF", // Jul to Dec
+        token.colorPrimary,
+        token.colorPrimary,
+        token.colorPrimary,
+        token.colorPrimary,
+        token.colorPrimary,
+        token.colorPrimary, // Jan to Jun
+        token.colorPrimary,
+        token.colorPrimary,
+        token.colorPrimary,
+        token.colorPrimary,
+        token.colorPrimary,
+        token.colorPrimary, // Jul to Dec
       ],
     } as any,
   });
@@ -91,7 +93,7 @@ export const DashboardColumnChart = () => {
           height={350}
           style={
             {
-              color:"#010101"
+              color: token.colorText
             }
           }
         />

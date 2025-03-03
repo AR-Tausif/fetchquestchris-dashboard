@@ -1,3 +1,4 @@
+import { theme } from "antd";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 // type s =
@@ -17,8 +18,11 @@ import ReactApexChart from "react-apexcharts";
 //   | "rangeBar"
 //   | "rangeArea"
 //   | "treemap";
+
+const { useToken } = theme;
 export const DashboardAreaChart = () => {
-  const [state, ] = React.useState({
+  const { token } = useToken();
+  const [state,] = React.useState({
     series: [
       {
         name: "series1",
@@ -74,8 +78,8 @@ export const DashboardAreaChart = () => {
           opacityTo: 0, // The opacity of the gradient to the end
           stops: [0, 100], // Defines the start and end points for the gradient
           colorStops: [
-            { offset: 0, color: "#4B0082", opacity: 1 }, // Start color (Indigo)
-            { offset: 100, color: "#FDFDFD", opacity: 1 }, // End color (Off-white)
+            { offset: 0, color: token.colorPrimary, opacity: 1 }, // Start color (Indigo)
+            { offset: 100, color: token.colorWhite, opacity: 1 }, // End color (Off-white)
           ],
         },
       },
@@ -93,7 +97,7 @@ export const DashboardAreaChart = () => {
             height={350}
             style={
               {
-                color:"#010101"
+                color: token.colorText
               }
             }
           />

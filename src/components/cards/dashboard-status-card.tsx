@@ -1,4 +1,4 @@
-import { Card } from "antd";
+import { Card, theme } from "antd";
 import { ReactNode } from "react";
 
 export const DashboardStatusCard = ({
@@ -10,8 +10,9 @@ export const DashboardStatusCard = ({
   title: string;
   desc: string;
 }) => {
+  const { token } = theme.useToken();
   return (
-    <Card style={{ background: "#A011FF", color: "#FDFDFD", border: "none" }}>
+    <Card style={{ color: "#FDFDFD", border: "none" }}>
       <div className="" style={{ display: "flex", alignItems: "center" }}>
         <div
           className=""

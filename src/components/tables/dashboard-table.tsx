@@ -121,18 +121,6 @@ export const DashboardTable = () => {
 
   return (
     <div className="user-table-container">
-      {/* <div className="table-header">
-        <Select defaultValue="this-month" className="month-select">
-          <Option value="this-month">This Month</Option>
-          <Option value="last-month">Last Month</Option>
-          <Option value="3-months">Last 3 Months</Option>
-        </Select>
-        <Input
-          placeholder="Search User"
-          prefix={<SearchOutlined />}
-          className="search-input"
-        />
-      </div> */}
       <Table
         columns={columns}
         dataSource={filteredData}
@@ -148,15 +136,4 @@ export const DashboardTable = () => {
   );
 };
 
-{
-  /* <div style={styles.actionContainer}>
-  <Link to="/account-details/12">
-    <p style={styles.actionIcon}>
-      <EyeInvisibleOutlined style={styles.icon} />
-    </p>
-  </Link>
-  <p style={styles.actionIcon} onClick={() => setDeleteUser(true)}>
-    <UserDeleteOutlined style={styles.deleteIcon} />
-  </p>
-</div> */
-}
+
