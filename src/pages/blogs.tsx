@@ -11,7 +11,7 @@ export const Blog = () => {
 
     return (
         <div className="bg-[#fdfdfd] p-4 rounded">
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center py-8">
                 <h4 className="tracking-tight font-extrabold text-xl">NEWS</h4>
                 <Button className="uppercase tracking-tight font-extrabold text-xl flex justify-between items-center gap-4 shadow-cyan-100 shadow-2xl border"
                 onClick={()=> setOpenResponsive(true)}>

@@ -1,3 +1,4 @@
+export * from "./user-off"
 interface IconProps {
   size?: string;
 }
