@@ -6,7 +6,7 @@ export const baseURL = "http://159.223.184.53:5008/api/v1";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: baseURL,
-  prepareHeaders: (headers, { getState }) => {
+  prepareHeaders: (headers, ) => {
     // const token = (getState() as RootState).auth.token;
 
     // If we have a token set in state, let's assume that we should be passing it.

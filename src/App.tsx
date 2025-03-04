@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import {
   BellOutlined,
   DollarOutlined,
-  FileDoneOutlined,
   LoginOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,

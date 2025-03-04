@@ -6,7 +6,7 @@ import {
   DashboardTable,
 } from "../components";
 import "./styles/dashboard.css";
-import { DollarCircleOutlined, UserOutlined } from "@ant-design/icons";
+import {UserOutlined } from "@ant-design/icons";
 import "./styles/dashboard-tables.css";
 const { useToken } = theme
 

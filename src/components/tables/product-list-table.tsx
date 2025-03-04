@@ -3,7 +3,6 @@ import { useState } from "react";
 import { EyeInvisibleOutlined, UserDeleteOutlined } from "@ant-design/icons";
 import { productData, DataType } from "../../assets/data/data.account-details";
 import { DeleteActionButtons } from "../cards/delete-action-card";
-import GameItemViewCard from "../cards/service-item-view-card";
 import { UpdateSubsPlanForm } from "../forms";
 
 export const ProductListTable = () => {

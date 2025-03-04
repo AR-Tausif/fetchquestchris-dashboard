@@ -1,6 +1,6 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Form, Input, Modal, Select, theme } from "antd";
-import { CreateServiceCard, GameListTable, ProductListTable } from "../components";
+import { ProductListTable } from "../components";
 import { Option } from "antd/es/mentions";
 import { useState } from "react";
 import { months } from "../assets/data";
