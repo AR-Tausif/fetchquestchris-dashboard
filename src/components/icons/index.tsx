@@ -16,3 +16,17 @@ export const MapDotIcon = ({ size }: IconProps) => {
     </svg>
   );
 };
+export const BlogIcon = ({ ...props }) => {
+  return (
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="1.2em" height="1.2em" viewBox="0 0 24 24">
+      <path fill="#010101" d="M19 5v14H5V5zm2-2H3v18h18zm-4 14H7v-1h10zm0-2H7v-1h10zm0-3H7V7h10z"></path>
+    </svg>
+  );
+};
+export const ThreeDBoxIcon = ({ ...props }) => {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="1.4em" height="1.4em" viewBox="0 0 24 24">
+    <path fill="#010101" fillRule="evenodd" d="m9.675 19.34l-3-2.144c-.821-.586-1.232-.88-1.453-1.31S5 14.95 5 13.942v-3.883c0-.322 0-.592.007-.825L11 13.514v6.717c-.357-.2-.773-.498-1.325-.892M13 20.23c.357-.2.773-.498 1.325-.892l3-2.143c.821-.586 1.232-.88 1.453-1.31S19 14.95 19 13.942v-3.883c0-.322 0-.592-.007-.825L13 13.514zm5.128-12.837L12 11.771L5.872 7.394c.212-.168.475-.356.803-.59l3-2.143C10.798 3.859 11.36 3.458 12 3.458s1.202.4 2.325 1.203l3 2.143c.329.234.591.422.803.59" clipRule="evenodd"></path>
+  </svg>
+  );
+};

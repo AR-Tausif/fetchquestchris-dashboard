@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
   BellOutlined,
-  DollarOutlined,
+  CodeSandboxOutlined,
   LoginOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
@@ -26,6 +26,7 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Logo } from "./components";
 import "./App.css";
 import "./antd-overwrite.css";
+import { BlogIcon } from "./components/icons";
 
 // Updated sidebarItems with proper nested structure
 const sidebarItems = [
@@ -49,13 +50,13 @@ const sidebarItems = [
   },
   {
     key: "/blogs",
-    icon: <ProductOutlined />,
+    icon: <BlogIcon />,
     label: "Blog",
     path: "/blogs",
   },
   {
     key: "/product-price",
-    icon: <DollarOutlined />,
+    icon: <CodeSandboxOutlined />,
     label: "Products",
     path: "/product-price",
   },
@@ -96,7 +97,7 @@ const App: React.FC = () => {
   } = theme.useToken();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-
+console.log(pathname);
   // Function to recursively transform menu items
   const transformMenuItem = (item: any) => {
     const transformed = { ...item };
