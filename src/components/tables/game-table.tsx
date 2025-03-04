@@ -1,6 +1,6 @@
 import { Modal, Table, TableColumnsType } from "antd";
 import { useState } from "react";
-import { EyeInvisibleOutlined, UserDeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { gameData, DataType } from "../../assets/data/data.account-details";
 import { DeleteActionButtons } from "../cards/delete-action-card";
 import GameItemViewCard from "../cards/service-item-view-card";
@@ -62,7 +62,7 @@ export const GameListTable = () => {
             <EyeInvisibleOutlined style={styles.icon} />
           </p>
           <p style={styles.actionIcon} onClick={() => setDeleteUser(true)}>
-            <UserDeleteOutlined style={styles.iconDelete} />
+            <DeleteOutlined style={styles.iconDelete} />
           </p>
         </div>
       ),
@@ -120,7 +120,7 @@ const styles = {
     borderRadius: "8px",
     border: "1px solid #498A6C",
     color: "#498A6C",
-    fontSize:16
+    fontSize: 16
   },
   statusInactiveBadge: {
     background: "#FE585814",
@@ -128,7 +128,7 @@ const styles = {
     borderRadius: "8px",
     border: "1px solid #FE5858",
     color: " #FE5858",
-    fontSize:16
+    fontSize: 16
   },
   actionContainer: {
     display: "flex",

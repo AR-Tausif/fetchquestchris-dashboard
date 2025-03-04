@@ -1,11 +1,29 @@
-import { Table, Select, Avatar } from "antd";
-import { EyeOutlined, UserDeleteOutlined } from "@ant-design/icons";
+import { Table, Avatar } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { DeleteActionButtons } from "../cards/delete-action-card";
+import { CSUserOffIcon } from "../icons";
+import { UserDetailsModal } from "../modals";
 
 export const DashboardTable = () => {
   const [deleteUser, setDeleteUser] = useState(false);
+  const [openAccountDetail, setOpenAccountDetail] = useState(false);
+  const [modalShowUser, setModalShowUser] = useState<any | null>(null);
+
+
+
+  const handleUserShow = (userData: any) => {
+    const users = data.find(
+      (user: any) => user.key == userData.record.key
+    );
+    if (!users) {
+      return;
+    }
+    setModalShowUser(users);
+    setOpenAccountDetail(true);
+    // console.log({ users, modalShowUser });
+  };
+
 
   const data = [
     {
@@ -13,7 +31,6 @@ export const DashboardTable = () => {
       serial: "#01",
       name: "Robert Fox",
       email: "email@gmail.com",
-
       date: "11 oct 2024",
       avatar: "/placeholder.svg",
     },
@@ -22,7 +39,6 @@ export const DashboardTable = () => {
       serial: "#02",
       name: "Robert Fox",
       email: "email@gmail.com",
-
       date: "11 oct 2024",
       avatar: "/placeholder.svg",
     },
@@ -78,14 +94,14 @@ export const DashboardTable = () => {
     {
       title: "Action",
       key: "action",
-      render: () => (
+      render: (text: any, record: any) => (
         <div className="action-buttons">
-          <Link to="/account-details/12">
-            <EyeOutlined className="view-icon" />
-          </Link>
-          <UserDeleteOutlined
+
+          <EyeOutlined className="view-icon" onClick={() => handleUserShow({ text, record })} />
+
+          <CSUserOffIcon
             onClick={() => setDeleteUser(true)}
-            className="delete-icon"
+            className="delete-icon text-3xl border rounded-full p-0.5"
           />
         </div>
       ),
@@ -100,6 +116,12 @@ export const DashboardTable = () => {
         dataSource={data}
         pagination={false}
         className="custom-table"
+      />
+
+      <UserDetailsModal
+        open={openAccountDetail}
+        onClose={() => setOpenAccountDetail(false)}
+        user={modalShowUser}
       />
       <DeleteActionButtons
         open={deleteUser}

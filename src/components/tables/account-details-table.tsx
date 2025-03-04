@@ -1,8 +1,9 @@
-import { Table, Select, Avatar } from "antd";
-import { EyeOutlined, UserDeleteOutlined } from "@ant-design/icons";
+import { Table, Avatar } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
 import { useState } from "react";
 import { DeleteActionButtons } from "../cards/delete-action-card";
 import { UserDetailsModal } from "../modals";
+import { CSUserOffIcon } from "../icons";
 
 export const AccountDetailsTable = () => {
   const [deleteUser, setDeleteUser] = useState(false);
@@ -105,9 +106,9 @@ export const AccountDetailsTable = () => {
             onClick={() => handleUserShow({ text, record })}
           />
 
-          <UserDeleteOutlined
+          <CSUserOffIcon
+            className="delete-icon text-3xl border rounded-full p-0.5"
             onClick={() => setDeleteUser(true)}
-            className="delete-icon"
           />
         </div>
       ),
