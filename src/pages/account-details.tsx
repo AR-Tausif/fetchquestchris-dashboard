@@ -1,38 +1,35 @@
-import { Form, Input, Select } from "antd";
+import { Input } from "antd";
 import { AccountDetailsTable } from "../components";
-import { Option } from "antd/es/mentions";
-import { months } from "../assets/data";
+import { useGetAllUserQuery } from "../redux/api/auth.api";
+import { Search } from "lucide-react";
+import { useState } from "react";
 
 export const AccountDetails = () => {
-  const [form] = Form.useForm();
 
-  const onFinish = () => {};
+  const [currentPage, setCurrentPage] = useState(1)
+  const [searchText, setSearchText] = useState("");
+
+  const query: { page: number, searchTerm ?: string } = { page: currentPage };
+
+  if (searchText) {
+    query["searchTerm"] = searchText;
+  }
+
+  const { isLoading, data } = useGetAllUserQuery(query)
 
   return (
     <div>
-      <Form
-        form={form}
-        name="login"
-        onFinish={onFinish}
-        style={{ maxWidth: "100%", display: "flex", gap: 16 }}
-        scrollToFirstError
-      >
-        <Form.Item name="month" style={{ width: "100%" }}>
-          <Select placeholder="This Month">
-            {months.map((month) => (
-              <Option value={month}>{month}</Option>
-            ))}
-          </Select>
-        </Form.Item>
-        <Form.Item
-          name="search_user"
-          style={{ width: " 100%" }}
-          className="success"
-        >
-          <Input placeholder="Search User" />
-        </Form.Item>
-      </Form>
-      <AccountDetailsTable />
+      <div className="w-1/3 ml-auto pb-5">
+        <Input
+          placeholder="Search by name or email"
+          prefix={<Search className="mr-2 text-black" size={20} />}
+          className="h-11 !border !rounded-lg !text-base"
+          onChange={(e) => setSearchText(e.target.value)}
+        />
+      </div>
+
+      <AccountDetailsTable isLoading={isLoading} data={data?.data?.data} setCurrentPage={setCurrentPage} currentPage={currentPage} meta = {data?.meta} />
+
     </div>
   );
 };

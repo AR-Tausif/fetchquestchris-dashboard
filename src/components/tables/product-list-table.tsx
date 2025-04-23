@@ -1,31 +1,59 @@
-import { Modal, Table, TableColumnsType } from "antd";
+import { Modal, Pagination, Popconfirm, Table, TableColumnsType, Tooltip } from "antd";
 import { useState } from "react";
-import { EyeInvisibleOutlined, UserDeleteOutlined } from "@ant-design/icons";
-import { productData, DataType } from "../../assets/data/data.account-details";
+import { DeleteOutlined, EyeInvisibleOutlined, UserDeleteOutlined } from "@ant-design/icons";
 import { DeleteActionButtons } from "../cards/delete-action-card";
 import { UpdateSubsPlanForm } from "../forms";
+import { meta, ProductType } from "../../types";
+import { Image } from 'antd';
+import moment from "moment";
+import { toast } from "react-toastify";
+import { useDeleteProductMutation } from "../../redux/api/product.api";
 
-export const ProductListTable = () => {
-    const [openAccountDetail, setOpenAccountDetail] = useState(false);
+export const ProductListTable = ({ isLoading, data, setCurrentPage, currentPage, meta }: { isLoading: boolean, data: ProductType[] | undefined, setCurrentPage: React.Dispatch<React.SetStateAction<number>>, currentPage: number, meta: meta | undefined }) => {
+
+   
     const [deleteUser, setDeleteUser] = useState(false);
 
-    const columns: TableColumnsType<DataType> = [
+    const [postDelete] = useDeleteProductMutation()
+
+    const handleDeleteGame = async (id: string) => {
+        const loadingToast = toast.loading("loading....");
+        try {
+            await postDelete({ id }).unwrap();
+            toast.success("Product delete succesfully");
+        } catch (err: any) {
+            toast.error(err?.data?.message || "Something went wrong, try again")
+        } finally {
+            toast.dismiss(loadingToast)
+        }
+    }
+
+    const columns: TableColumnsType<ProductType> = [
         {
             title: "Serial",
             dataIndex: "serial",
             align: "center",
+            render: (_, __, indx) => (indx + 1),
         },
         {
-            title: "Product",
-            dataIndex: "image",
+            title: "Name",
+            dataIndex: "name",
             align: "center",
-            render: (_text: string, record: DataType) => (
+        },
+        {
+            title: "Images",
+            dataIndex: "images",
+            align: "center",
+            render: (value) => (
                 <div style={styles.imageContainer}>
-                    <img
-                        src="https://s3-alpha-sig.figma.com/img/961c/6322/c83d212d71d7cd3bf544506e3aa0f1eb?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=Xg5Rg16HnxddZEyntIbW8YgKZD8uPfWzTkLc5PbcjhKHxxSUs-VBAllVNoqwZO9210TqLJ4tx8Xn9KiNk6hISIIlrEOLFxpg9SRMl8HL60VD2FvR3wPSjz97gnr~yqh5UYXAlycOofN3KOLo0LkLtr16rqCLZQP2i-iM00lgcLs3eQxwpSVuaOqNam4erJud26c7pgA9vtgS5Gz~ILqjTKAq3bs2AGCBE9QEt1E5VJK2ubCS8pFhg5UBpwgV9kwsj75-j4~q3eHoL6x7uuguMy15BO4MBqAeEy8K5DU~2N48A4Nk82IAHU1dbHGFDj~6-ZWQczFPSwPp6~eeA8WXgQ__"
-                        alt={record.name}
-                        style={styles.image}
-                    />
+                    <Image.PreviewGroup
+                        items={value}
+                    >
+                        <Image
+                            width={100}
+                            src={value[0]}
+                        />
+                    </Image.PreviewGroup>
                 </div>
             ),
         },
@@ -33,37 +61,43 @@ export const ProductListTable = () => {
             title: "Price",
             dataIndex: "price",
             align: "center",
+            render: (value) => ("$ " + value),
         },
         {
-            title: "Status",
-            dataIndex: "status",
+            title: "Stock",
+            dataIndex: "stock",
             align: "center",
-            render: (status) => (
-                <div style={styles.statusContainer}>
-                    <div style={status == "Sell" ? styles.statusActiveBadge : styles.statusInactiveBadge}>{status}</div>
-                </div>
-            ),
         },
         {
             title: "Date",
-            dataIndex: "date",
+            dataIndex: "createdAt",
             align: "center",
+            render: (value) => moment(value).format("LL"),
         },
         {
             title: "Action",
             dataIndex: "action",
             align: "center",
-            render: (_text: string, _record: DataType) => (
+            render: (_, record) => (
                 <div style={styles.actionContainer}>
-                    <p
-                        style={styles.actionIcon}
-                        onClick={() => setOpenAccountDetail(true)}
+                    <UpdateSubsPlanForm defaultData={record}/>
+                   
+
+                    <Popconfirm
+                        title={"Delete"}
+                        description={"Are you sure you want to delete this product?"}
+                        onConfirm={() => handleDeleteGame(record?._id)}
+                        okText={"Yes"}
+                        cancelText={"No"}
                     >
-                        <EyeInvisibleOutlined style={styles.icon} />
-                    </p>
-                    <p style={styles.actionIcon} onClick={() => setDeleteUser(true)}>
-                        <UserDeleteOutlined style={styles.iconDelete} />
-                    </p>
+
+                        <Tooltip title={"Delete Product"}>
+                            <p style={styles.actionIcon}>
+                                <DeleteOutlined style={styles.iconDelete} />
+                            </p>
+                        </Tooltip>
+                    </Popconfirm>
+
                 </div>
             ),
         },
@@ -71,21 +105,17 @@ export const ProductListTable = () => {
 
     return (
         <>
-            <Table<DataType>
+            <Table<ProductType>
                 columns={columns}
-                dataSource={productData}
+                loading={isLoading}
+                dataSource={data}
                 size="middle"
                 style={styles.table}
+                footer={() => <div>
+                    <Pagination defaultCurrent={currentPage} total={meta?.total} pageSize={10} hideOnSinglePage align="end" showSizeChanger={false} onChange={(page) => setCurrentPage(page)} />
+                </div>}
             />
-            <Modal
-                centered
-                open={openAccountDetail}
-                onOk={() => setOpenAccountDetail(false)}
-                onCancel={() => setOpenAccountDetail(false)}
-                footer={null}
-            >
-                <UpdateSubsPlanForm/>
-            </Modal>
+            
             <DeleteActionButtons
                 open={deleteUser}
                 onConfirm={() => setDeleteUser(false)}

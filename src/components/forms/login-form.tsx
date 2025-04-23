@@ -3,43 +3,58 @@ import {
   Checkbox,
   CheckboxProps,
   Form,
+  FormProps,
   Input,
-  message,
-  notification,
 } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { EyeInvisibleOutlined } from "@ant-design/icons";
 import { PrimaryButton } from "../primary-button";
+import { useLoginAdminMutation } from "../../redux/api/auth.api";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../redux/store";
+import { addUserDetails } from "../../redux/features/auth.slice";
+
+type FieldType = {
+  email: string,
+  password: string
+};
 
 export const LoginForm: React.FC = () => {
-  const [form] = Form.useForm();
+
+  const [postLogin] = useLoginAdminMutation();
+  const navig = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
   const [showPass, setShowPass] = useState(false);
-  const [api, contextHolder] = notification.useNotification();
 
-  const openNotification = (data: Record<string, unknown>) => {
-    const b = {
-      ...data,
-    };
-    api.open({
-      message: "Service Updated succesfully",
-      description: (
-        <pre>
-          <code>{JSON.stringify(b)}.</code>
-        </pre>
-      ),
-      duration: 2,
-    });
-  };
-  const onFinish = (values: Record<string, unknown>) => {
-    openNotification(values);
-    // console.log("Received values of form: ", values);
+  const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
+
+    const loader = toast.loading("loading.....")
+
+    try {
+
+      const res = await postLogin(values)?.unwrap();
+
+      dispatch(addUserDetails({
+        name: res?.data?.user?.name,
+        email: res?.data?.user?.email,
+        image: res?.data?.user?.image,
+        phoneNumber: res?.data?.user?.contact,
+        accessToken: res?.data?.accessToken,
+        refreshToken: res?.data?.refreshToken
+      }))
+
+      toast.success("Login successfully")
+      navig('/')
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Something went wrong, try again")
+    } finally {
+      toast.dismiss(loader)
+    }
   };
 
-  const onFinishFailed = () => {
-    message.error("Submit failed!");
-  };
-
-  const onCheckboxRememberChange: CheckboxProps["onChange"] = () => {};
+  const onCheckboxRememberChange: CheckboxProps["onChange"] = () => { };
 
   const handleShwingPassword = () => {
     setShowPass(!showPass);
@@ -47,25 +62,25 @@ export const LoginForm: React.FC = () => {
 
   return (
     <>
-      {contextHolder}
       <Form
-        form={form}
-        layout="vertical"
+        name="basic"
+        style={{ width: '100%' }}
+        // initialValues={}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete="off"
+        layout="vertical"
       >
-        <Form.Item
+        <Form.Item<FieldType>
           name="email"
-          label="Email or Username"
-          rules={[{ type: "string", min: 3 }]}
+          label="Email"
+          rules={[{ required: true, message: "password required" }]}
         >
-          <Input placeholder="Enter your email or username" />
+          <Input placeholder="Enter your email" />
         </Form.Item>
-        <Form.Item
+        <Form.Item<FieldType>
           name="password"
           label="Password"
-          rules={[{ type: "string", min: 4 }]}
+          rules={[{ required: true, message: "password required" }]}
         >
           <Input
             type={showPass ? "text" : "password"}
@@ -94,7 +109,7 @@ export const LoginForm: React.FC = () => {
 
         <Form.Item>
           <PrimaryButton
-            type="button"
+            type="submit"
             styles={{ width: "100%", }}
           >
             Submit

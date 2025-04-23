@@ -1,16 +1,48 @@
 export interface IUserDetails {
-  fullName: string;
-  userName: string;
-  email: string;
-  phoneNumber: string;
-  photo: string;
-  location: string;
-  accountType: string;
-  subscriptionType: string;
-  services: string;
-  businessName: string;
-  overallRating: string;
-  valueForMoney: string;
+  "_id": string,
+  "email": string,
+  "__v": 0,
+  "contact": string,
+  "image": string,
+  "isDeleted": boolean,
+  "isverified": boolean,
+  "name": string,
+  createdAt: Date,
+  updatedAt: Date,
+  status : 1 | 0
+}
+
+export type meta = {
+  "page": number,
+  "limit": number,
+  "total": number,
+  "totalPage": number
+}
+
+export type GameType =  {
+  "_id": string,
+  "name": string,
+  "image": string,
+  "status": boolean,
+  "description": string,
+  "createdAt": Date,
+  "updatedAt": Date,
+  link : string
+  "__v": 0
+}
+
+export type ProductType = {
+  "_id": string,
+  "name": string,
+  "images": string[],
+  "price": number,
+  "details": string,
+  "stock": number,
+  "category": string,
+  "isDeleted": boolean,
+  "createdAt": Date,
+  "updatedAt": Date,
+  "__v": 0
 }
 
 // export interface ITableUser {

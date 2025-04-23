@@ -1,16 +1,26 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { Form, Input, Modal, Select, theme } from "antd";
+import {Input, Modal, theme } from "antd";
 import { CreateServiceCard, GameListTable } from "../components";
-import { Option } from "antd/es/mentions";
 import { useState } from "react";
-import { months } from "../assets/data";
+import { useGetAllGamesQuery } from "../redux/api/game.api";
+import { Search } from "lucide-react";
 
 export const GameList = () => {
+  const [currentPage, setCurrentPage] = useState(1)
+  const [searchText, setSearchText] = useState("");
+
+  const query: { page: number, searchTerm?: string } = { page: currentPage };
+
+  if (searchText) {
+    query["searchTerm"] = searchText;
+  }
+
+  const { isLoading, data } = useGetAllGamesQuery(query)
+  
+
   const [openResponsive, setOpenResponsive] = useState(false);
-  const [form] = Form.useForm();
 
   const { token } = theme.useToken()
-  const onFinish = () => { };
 
   // Style object
   const styles = {
@@ -67,30 +77,18 @@ export const GameList = () => {
         <PlusCircleOutlined style={styles.icon} />
         <p>Add new list</p>
       </div>
-      <div>
-        <h2 style={styles.title}>Service List</h2>
-        <Form
-          form={form}
-          name="login"
-          onFinish={onFinish}
-          style={styles.form}
-          scrollToFirstError
-        >
-          <Form.Item name="month" style={styles.formItem}>
-            <Select placeholder="This Month">
-              {months.map((month) => (
-                <Option key={month} value={month.toLowerCase()}>
-                  {month}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item name="search_user" style={styles.formItem}>
-            <Input placeholder="Search User" />
-          </Form.Item>
-        </Form>
+
+      <div className="w-1/3 ml-auto py-5">
+        <Input
+          placeholder="Search by name"
+          prefix={<Search className="mr-2 text-black" size={20} />}
+          className="h-11 !border !rounded-lg !text-base"
+          onChange={(e) => setSearchText(e.target.value)}
+        />
       </div>
-      <GameListTable />
+
+      <GameListTable  isLoading={isLoading} data={data?.data?.data} setCurrentPage={setCurrentPage} currentPage={currentPage} meta = {data?.meta} />
+
       <Modal
         centered
         open={openResponsive}

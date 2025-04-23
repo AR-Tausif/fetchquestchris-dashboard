@@ -1,84 +1,54 @@
-import { Table, Avatar } from "antd";
+import { Table, Avatar, TableColumnsType, Pagination, Tooltip } from "antd";
 import { EyeOutlined } from "@ant-design/icons";
-import { useState } from "react";
-import { DeleteActionButtons } from "../cards/delete-action-card";
+import React, { useState } from "react";
 import { UserDetailsModal } from "../modals";
-import { CSUserOffIcon } from "../icons";
+import { IUserDetails, meta } from "../../types";
+import moment from "moment";
+import { toast } from "react-toastify";
+import { useBlockUserMutation } from "../../redux/api/auth.api";
+import { UserCheck, UserX } from "lucide-react";
 
-export const AccountDetailsTable = () => {
-  const [deleteUser, setDeleteUser] = useState(false);
+export const AccountDetailsTable = ({ isLoading, data, setCurrentPage, currentPage, meta }: { isLoading: boolean, data: IUserDetails[] | undefined, setCurrentPage: React.Dispatch<React.SetStateAction<number>>, currentPage: number, meta: meta | undefined }) => {
+
+  const [postBlock] = useBlockUserMutation()
+
   const [openAccountDetail, setOpenAccountDetail] = useState(false);
   const [modalShowUser, setModalShowUser] = useState<any | null>(null);
 
-  const data = [
-    {
-      key: "1",
-      serial: "#01",
-      name: "Diana Doxy",
-      email: "diana@gmail.com",
+  const handleUserShow = (user: IUserDetails) => {
 
-      date: "11 oct 2024",
-      avatar:
-        "https://www.perfocal.com/blog/content/images/2021/01/Perfocal_17-11-2019_TYWFAQ_100_standard-3.jpg",
-    },
-    {
-      key: "2",
-      serial: "#02",
-      name: "Robert Fox",
-      email: "robert.fox@gmail.com",
-
-      date: "11 oct 2024",
-      avatar:
-        "https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHByb2ZpbGUlMjBwaWN0dXJlfGVufDB8fDB8fHww",
-    },
-    {
-      key: "3",
-      serial: "#03",
-      name: "Rian Bin Kashem",
-      email: "rian.kashem@gmail.com",
-
-      date: "11 oct 2024",
-      avatar:
-        "https://writestylesonline.com/wp-content/uploads/2016/08/Follow-These-Steps-for-a-Flawless-Professional-Profile-Picture-Thumbnail.jpg",
-    },
-    {
-      key: "4",
-      serial: "#04",
-      name: "William Hanry",
-      email: "bilgates.personal@gmail.com",
-
-      date: "11 oct 2024",
-      avatar:
-        "https://www.shutterstock.com/image-photo/photo-beautiful-young-business-woman-260nw-1906641364.jpg",
-    },
-  ];
-
-  const handleUserShow = (userData: any) => {
-    const users = data.find(
-      (user: any) => user.key == userData.record.key
-    );
-    if (!users) {
-      return;
-    }
-    setModalShowUser(users);
+    setModalShowUser(user);
     setOpenAccountDetail(true);
-    // console.log({ users, modalShowUser });
   };
-  // console.log(handleUserShow);
 
-  const columns = [
+  const handleBlockUser = async (id: string, status: 1 | 0) => {
+    const loadingToast = toast.loading("loading...")
+    try {
+     await postBlock({ id: id, updatedData: { status: status } }).unwrap();
+
+      toast.success(`User ${status ? "Unblock" : "Block"} successfully`)
+
+    } catch (err: any) {
+      toast.error(err?.data?.message || "something went wrong, try again")
+    } finally {
+      toast.dismiss(loadingToast)
+    }
+  };
+
+  const columns: TableColumnsType<IUserDetails> = [
     {
       title: "Serial",
       dataIndex: "serial",
       key: "serial",
+      render: (_, __, indx) => (indx + 1)
     },
     {
       title: "Name",
       dataIndex: "name",
       key: "name",
-      render: (text: string, record: Record<string, string>) => (
+      render: (text, record) => (
         <div className="name-cell">
-          <Avatar src={record.avatar} size={32}>
+          <Avatar src={record?.image} size={32}>
             RF
           </Avatar>
           <span>{text}</span>
@@ -92,24 +62,31 @@ export const AccountDetailsTable = () => {
     },
 
     {
-      title: "Date",
-      dataIndex: "date",
-      key: "date",
+      title: "Joined Date",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (value) => moment(value).format("LL"),
     },
     {
       title: "Action",
       key: "action",
-      render: (text: string, record: any) => (
+      render: (_, record) => (
         <div className="action-buttons">
           <EyeOutlined
             className="view-icon"
-            onClick={() => handleUserShow({ text, record })}
+            onClick={() => handleUserShow(record)}
           />
 
-          <CSUserOffIcon
+          {/* <CSUserOffIcon
             className="delete-icon text-3xl border rounded-full p-0.5"
             onClick={() => setDeleteUser(true)}
-          />
+          /> */}
+
+          <Tooltip title={record?.status ? "Block user" : "Unblock user"}>
+            <button onClick={() => handleBlockUser(record?._id, record?.status == 1 ? 0 : 1)} className="cursor-pointer">
+              {record?.status ? <UserX color="#F16365" size={22} /> : <UserCheck color="#00ba15" size={22} />}
+            </button>
+          </Tooltip>
         </div>
       ),
     },
@@ -119,34 +96,21 @@ export const AccountDetailsTable = () => {
 
   return (
     <div className="user-table-container">
-      <Table
+      <Table<IUserDetails>
         columns={columns}
+        loading={isLoading}
         dataSource={data}
         className="custom-table"
+        footer={() => <div>
+          <Pagination defaultCurrent={currentPage} total={meta?.total} pageSize={10} hideOnSinglePage align="end" showSizeChanger={false} onChange={(page) => setCurrentPage(page)} />
+        </div>}
       />
       <UserDetailsModal
         open={openAccountDetail}
         onClose={() => setOpenAccountDetail(false)}
         user={modalShowUser}
       />
-      <DeleteActionButtons
-        open={deleteUser}
-        onConfirm={() => setDeleteUser(false)}
-        onCancel={() => setDeleteUser(false)}
-      />
+
     </div>
   );
 };
-
-{
-  /* <div style={styles.actionContainer}>
-  <Link to="/account-details/12">
-    <p style={styles.actionIcon}>
-      <EyeInvisibleOutlined style={styles.icon} />
-    </p>
-  </Link>
-  <p style={styles.actionIcon} onClick={() => setDeleteUser(true)}>
-    <UserDeleteOutlined style={styles.deleteIcon} />
-  </p>
-</div> */
-}

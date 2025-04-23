@@ -1,29 +1,43 @@
-import { Modal, Table, TableColumnsType } from "antd";
-import { useState } from "react";
-import { DeleteOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-import { gameData, DataType } from "../../assets/data/data.account-details";
-import { DeleteActionButtons } from "../cards/delete-action-card";
+import { Pagination, Popconfirm, Table, TableColumnsType, Tooltip } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import GameItemViewCard from "../cards/service-item-view-card";
+import { GameType, meta } from "../../types";
+import moment from "moment";
+import { toast } from "react-toastify";
+import { useDeleteGameMutation } from "../../redux/api/game.api";
 
-export const GameListTable = () => {
-  const [openAccountDetail, setOpenAccountDetail] = useState(false);
-  const [deleteUser, setDeleteUser] = useState(false);
+export const GameListTable = ({ isLoading, data, setCurrentPage, currentPage, meta }: { isLoading: boolean, data: GameType[] | undefined, setCurrentPage: React.Dispatch<React.SetStateAction<number>>, currentPage: number, meta: meta | undefined }) => {
 
-  const columns: TableColumnsType<DataType> = [
+  const [postDelete] = useDeleteGameMutation()
+
+  const handleDeleteGame = async (id: string) => {
+    const loadingToast = toast.loading("loading....");
+    try {
+      await postDelete({ id }).unwrap();
+      toast.success("Game delete succesfully");
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Something went wrong, try again")
+    } finally {
+      toast.dismiss(loadingToast)
+    }
+  }
+
+  const columns: TableColumnsType<GameType> = [
     {
       title: "Serial",
       dataIndex: "serial",
       align: "center",
+      render: (_, __, indx) => (indx + 1),
     },
     {
       title: "Game",
       dataIndex: "image",
       align: "center",
-      render: (_text: string, record: DataType) => (
+      render: (value) => (
         <div style={styles.imageContainer}>
           <img
-            src="https://s3-alpha-sig.figma.com/img/6b66/731b/360e0c3606af3f363e3650077dcced85?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=nbc7p4PGHntpTAiSuMdv3cZUPTROOP3H0iu1PM60EOZbmHeIA67vXXWYpwyV-LBGWZr2YNyXcVzMVQlxv47QRdrPP0vlt3iabFhM9RfTQ41kMWA6laoIT3fMAcW-B7u8rqgohCkxmQ2lYihLCOQOlkZZ-p~TNMLDHTsqjh7IzEMoS4vvhaVPbeI8vG76bUtIU93DTjvdTp-IeEhQxa6KwtrTBOhHeqfKc~6fLq2muGl0tvRsznn1TtfrMopfdTAT9duxY4rwBs5MSnHstyUtyye-yevPvMUKsv4CAd0rL3e5yEoE~aZ2ODb5je7TN7z0L0LcUQqgU97cHo~8agJBDw__"
-            alt={record.name}
+            src={value}
+            alt={"game image"}
             style={styles.image}
           />
         </div>
@@ -31,66 +45,75 @@ export const GameListTable = () => {
     },
     {
       title: "Game Name",
-      dataIndex: "gamename",
+      dataIndex: "name",
       align: "center",
     },
     {
-      title: "Status",
-      dataIndex: "status",
+      title: "Website",
+      dataIndex: "link",
       align: "center",
-      render: (status) => (
-        <div style={styles.statusContainer}>
-          <div style={status == "Active" ? styles.statusActiveBadge : styles.statusInactiveBadge}>{status}</div>
-        </div>
-      ),
     },
+    // {
+    //   title: "Status",
+    //   dataIndex: "status",
+    //   align: "center",
+    //   render: (status) => (
+    //     <div style={styles.statusContainer}>
+    //       <div style={status == "Active" ? styles.statusActiveBadge : styles.statusInactiveBadge}>{status}</div>
+    //     </div>
+    //   ),
+    // },
     {
-      title: "Date",
-      dataIndex: "date",
+      title: "Created",
+      dataIndex: "createdAt",
       align: "center",
+      render: (value) => moment(value).format("LL"),
     },
     {
       title: "Action",
       dataIndex: "action",
       align: "center",
-      render: (_text: string, _record: DataType) => (
+      render: (_, record) => (
         <div style={styles.actionContainer}>
-          <p
-            style={styles.actionIcon}
-            onClick={() => setOpenAccountDetail(true)}
+          
+            <GameItemViewCard defaultData={record} />
+
+
+          <Popconfirm
+            title={"Delete"}
+            description={"Are you sure you want to delete this game?"}
+            onConfirm={() => handleDeleteGame(record?._id)}
+            okText={"Yes"}
+            cancelText={"No"}
           >
-            <EyeInvisibleOutlined style={styles.icon} />
-          </p>
-          <p style={styles.actionIcon} onClick={() => setDeleteUser(true)}>
-            <DeleteOutlined style={styles.iconDelete} />
-          </p>
-        </div>
+
+            <Tooltip title={"Delete Game"}>
+              <p style={styles.actionIcon}>
+                <DeleteOutlined style={styles.iconDelete} />
+              </p>
+            </Tooltip>
+          </Popconfirm>
+
+
+        </div >
       ),
     },
   ];
 
   return (
     <>
-      <Table<DataType>
+      <Table<GameType>
         columns={columns}
-        dataSource={gameData}
+        dataSource={data}
+        loading={isLoading}
         size="middle"
         style={styles.table}
+        footer={() => <div>
+          <Pagination defaultCurrent={currentPage} total={meta?.total} pageSize={10} hideOnSinglePage align="end" showSizeChanger={false} onChange={(page) => setCurrentPage(page)} />
+        </div>}
       />
-      <Modal
-        centered
-        open={openAccountDetail}
-        onOk={() => setOpenAccountDetail(false)}
-        onCancel={() => setOpenAccountDetail(false)}
-        footer={null}
-      >
-        <GameItemViewCard />
-      </Modal>
-      <DeleteActionButtons
-        open={deleteUser}
-        onConfirm={() => setDeleteUser(false)}
-        onCancel={() => setDeleteUser(false)}
-      />
+
+
     </>
   );
 };

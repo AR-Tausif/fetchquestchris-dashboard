@@ -15,6 +15,8 @@ export const DeleteActionButtons: React.FC<ActionButtonsProps> = ({
 }) => {
   const { token } = theme.useToken();
 
+  
+
   // Styles for ActionButtons
   const styles = {
     container: {
@@ -36,6 +38,7 @@ export const DeleteActionButtons: React.FC<ActionButtonsProps> = ({
       width: "50%",
     },
   };
+
   return (
     <Modal
       centered
@@ -46,7 +49,7 @@ export const DeleteActionButtons: React.FC<ActionButtonsProps> = ({
     >
       <div style={styles.container}>
         <h3 style={styles.title}>Are You Sure!</h3>
-        <p style={{ color: token.colorText }}>Do you want to delete this User?</p>
+        <p style={{ color: token.colorText }}>Do you want to block this User?</p>
         <Button style={styles.confirmButton}>Confirm</Button>
       </div>
     </Modal>
