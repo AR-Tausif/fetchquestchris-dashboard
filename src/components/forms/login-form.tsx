@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+  Button,
   Checkbox,
   CheckboxProps,
   Form,
@@ -8,12 +9,12 @@ import {
 } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { EyeInvisibleOutlined } from "@ant-design/icons";
-import { PrimaryButton } from "../primary-button";
 import { useLoginAdminMutation } from "../../redux/api/auth.api";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../redux/store";
 import { addUserDetails } from "../../redux/features/auth.slice";
+import { LucideLoaderCircle } from "lucide-react";
 
 type FieldType = {
   email: string,
@@ -22,15 +23,13 @@ type FieldType = {
 
 export const LoginForm: React.FC = () => {
 
-  const [postLogin] = useLoginAdminMutation();
+  const [postLogin, {isLoading}] = useLoginAdminMutation();
   const navig = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
   const [showPass, setShowPass] = useState(false);
 
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-
-    const loader = toast.loading("loading.....")
 
     try {
 
@@ -49,8 +48,6 @@ export const LoginForm: React.FC = () => {
       navig('/')
     } catch (err: any) {
       toast.error(err?.data?.message || "Something went wrong, try again")
-    } finally {
-      toast.dismiss(loader)
     }
   };
 
@@ -108,12 +105,16 @@ export const LoginForm: React.FC = () => {
         </div>
 
         <Form.Item>
-          <PrimaryButton
-            type="submit"
-            styles={{ width: "100%", }}
+          <Button
+            htmlType="submit"
+            type="primary"
+            size="large"
+            block
+            icon={isLoading ? <LucideLoaderCircle className="animate-spin text-white !mt-1" /> : <></>}
+            iconPosition="end"
           >
             Submit
-          </PrimaryButton>
+          </Button>
         </Form.Item>
       </Form>
     </>

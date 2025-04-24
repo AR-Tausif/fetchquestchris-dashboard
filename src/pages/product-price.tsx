@@ -1,5 +1,5 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
-import {Input, Modal, theme } from "antd";
+import { Input, Modal, theme } from "antd";
 import { ProductListTable } from "../components";
 import { useState } from "react";
 import { CreateSubsPlanForm } from "../components/forms/create-subs-plan-form";
@@ -76,11 +76,9 @@ export const ProductPrice = () => {
         <div style={styles.container}>
             <div style={styles.addButton} onClick={() => setOpenResponsive(true)}>
                 <PlusCircleOutlined style={styles.icon} />
-                <p>Add new service</p>
+                <p>Add new Product</p>
             </div>
             <div>
-                <h2 style={styles.title}>Products List</h2>
-
                 <div className="w-1/3 ml-auto py-5">
                     <Input
                         placeholder="Search by name"
@@ -89,9 +87,9 @@ export const ProductPrice = () => {
                         onChange={(e) => setSearchText(e.target.value)}
                     />
                 </div>
-
             </div>
-            <ProductListTable isLoading={isLoading} data={data?.data?.data} setCurrentPage={setCurrentPage} currentPage={currentPage} meta = {data?.meta}/>
+
+            <ProductListTable isLoading={isLoading} data={data?.data?.data} setCurrentPage={setCurrentPage} currentPage={currentPage} meta={data?.meta} />
             <Modal
                 centered
                 open={openResponsive}

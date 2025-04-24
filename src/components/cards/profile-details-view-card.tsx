@@ -14,13 +14,6 @@ export const ProfileDetailsViewCard = ({
     { prop: "User Name", value: user.email.split("@")[0] },
     { prop: "Email", value: user.email },
     { prop: "Phone Number", value: "01823771127" },
-    // { prop: "Location", value: "Jamalganj" },
-    // { prop: "Account Type", value: user.accountType },
-    // { prop: "Subscription Type", value: user.subscriptionType },
-    // { prop: "Services", value: user.services },
-    // { prop: "Business Name", value: user.businessName },
-    // { prop: "Overall Rating", value: user.overallRating },
-    // { prop: "Value For Money", value: user.valueForMoney },
   ];
   return (
     <div className="profile-details">

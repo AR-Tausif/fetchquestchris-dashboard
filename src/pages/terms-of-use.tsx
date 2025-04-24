@@ -1,16 +1,16 @@
 import JoditEditor from "jodit-react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+
+import { Loader2 } from "lucide-react";
+import { toast } from "react-toastify";
+import { useGetTermsContentsQuery, useUpdateTermsContentMutation } from "../redux/api/content.api";
 import { PrimaryButton } from "../components";
 
 export const TermsOfUse = () => {
-  const [content, setContent] = useState("");
-  // const appendLog = useCallback(
-  //   (message) => {
-  //     const newLogs = [...logs, message];
-  //     setLogs(newLogs);
-  //   },
-  //   [logs, setLogs]
-  // );
+  const [createPrivacy, { isLoading }] = useUpdateTermsContentMutation();
+  const { data: privacyData } = useGetTermsContentsQuery();
+
+  const [content, setContent] = useState(privacyData?.data?.value || "");
 
   const config = useMemo(
     () => ({
@@ -23,14 +23,34 @@ export const TermsOfUse = () => {
 
   const onBlur = useCallback(
     (newContent: string) => {
-      // appendLog(`onBlur triggered with ${newContent}`);
       setContent(newContent);
     },
     [setContent]
   );
+
+  const handleSubmit = async () => {
+    try {
+      const response = await createPrivacy(content).unwrap();
+      toast.success(
+        response.message ? response.message : "Privacy created successfully"
+      );
+    } catch (error: any) {
+      toast.error(
+        error.data.message
+          ? error.data.message
+          : "Something went wrong to create privacy"
+      );
+    }
+  };
+  useEffect(() => {
+    if (privacyData?.data?.value) {
+      setContent(privacyData?.data?.value);
+    }
+  }, [privacyData]);
+
   return (
     <div>
-      <h3>Terms Of Use</h3>
+      <h3>Terms of Use</h3>
       <div
         style={{
           background: "#fdfdfd",
@@ -45,16 +65,17 @@ export const TermsOfUse = () => {
             config={config}
             tabIndex={1}
             onBlur={onBlur}
-            // onChange={onChange}
           />
-          {/* <h3>Logs</h3>
-          <div>
-            {logs.map((log, index) => (
-              <p key={index}>{log}</p>
-            ))}
-          </div> */}
         </div>
-        <PrimaryButton styles={{ width: "100%" }}>Save Changes</PrimaryButton>
+        {isLoading ? (
+          <PrimaryButton styles={{ width: "100%" }} >
+            Saving... <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          </PrimaryButton>
+        ) : (
+          <PrimaryButton styles={{ width: "100%" }} onClick={handleSubmit}>
+            Save Changes
+          </PrimaryButton>
+        )}
       </div>
     </div>
   );

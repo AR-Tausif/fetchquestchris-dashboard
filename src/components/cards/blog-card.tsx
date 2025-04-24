@@ -1,18 +1,58 @@
+import moment from "moment"
+import { BlogType } from "../../types"
+import { Trash } from "lucide-react"
+import { toast } from "react-toastify"
+import { useDeleteBlogMutation } from "../../redux/api/blog.api"
+import { Popconfirm, Tooltip } from "antd"
+import EditBlog from "./EditBlog"
 
-export const BlogCard = () => {
+export const BlogCard = ({ blog }: { blog: BlogType }) => {
+
+    const [postDelete] = useDeleteBlogMutation()
+
+    const handleDeleteGame = async (id: string) => {
+        const loadingToast = toast.loading("loading....");
+        try {
+            await postDelete({ id }).unwrap();
+            toast.success("Blog delete succesfully");
+        } catch (err: any) {
+            toast.error(err?.data?.message || "Something went wrong, try again")
+        } finally {
+            toast.dismiss(loadingToast)
+        }
+    }
+
     return (
-        <div className="p-4 bg-[#fdfdfd] rounded-lg" style={{
+        <div className="p-4 bg-[#fdfdfd] rounded-lg relative" style={{
             border: "1px solid #DA5DA3"
         }}>
             <div >
                 <div className="h-56">
-                    <img className="h-full w-full rounded-lg object-cover" src="https://s3-alpha-sig.figma.com/img/6b66/731b/360e0c3606af3f363e3650077dcced85?Expires=1742169600&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=nbc7p4PGHntpTAiSuMdv3cZUPTROOP3H0iu1PM60EOZbmHeIA67vXXWYpwyV-LBGWZr2YNyXcVzMVQlxv47QRdrPP0vlt3iabFhM9RfTQ41kMWA6laoIT3fMAcW-B7u8rqgohCkxmQ2lYihLCOQOlkZZ-p~TNMLDHTsqjh7IzEMoS4vvhaVPbeI8vG76bUtIU93DTjvdTp-IeEhQxa6KwtrTBOhHeqfKc~6fLq2muGl0tvRsznn1TtfrMopfdTAT9duxY4rwBs5MSnHstyUtyye-yevPvMUKsv4CAd0rL3e5yEoE~aZ2ODb5je7TN7z0L0LcUQqgU97cHo~8agJBDw__" alt="Blog Image" />
+                    <img className="h-full w-full rounded-lg object-cover" src={blog?.image} alt="Blog Image" />
                 </div>
                 <div className="pt-5">
-                    <p className="tracking-tight">October 21, 2025</p>
-                    <h3 className="uppercase font-bold text-[24px] -tracking-widest ">Sports & Racing</h3>
-                    <p className="text-[16px] tracking-wide">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perspiciatis enim fugiat dolorum nisi tenetur!</p>
+                    <p className="tracking-tight">{moment(blog?.createdAt).format('MMMM D, YYYY')}</p>
+                    <h3 className="uppercase font-bold text-[24px] -tracking-widest ">{blog?.name}</h3>
+                    <p className="text-[16px] tracking-wide">{blog?.description}</p>
                 </div>
+            </div>
+            <div className="flex flex-row gap-3 items-center absolute top-2 right-2">
+                
+                <EditBlog defaultData={blog}/>
+
+                <Popconfirm
+                    title={"Delete"}
+                    description={"Are you sure you want to delete this blog?"}
+                    onConfirm={() => handleDeleteGame(blog?._id)}
+                    okText={"Yes"}
+                    cancelText={"No"}>
+                    <Tooltip title={"Delete Blog"}>
+                        <button className="p-2 bg-slate-50 cursor-pointer">
+                            <Trash size={16} />
+                        </button>
+                    </Tooltip>
+                </Popconfirm>
+
             </div>
         </div>
     )

@@ -19,7 +19,7 @@ export function UpdateSubsPlanForm({ defaultData }: { defaultData: ProductType }
 
   const [postUpdate, { isLoading }] = useEditProductMutation()
 
-  const [dImages, setDImages] = useState(defaultData?.images);
+  const [dImages, setDImages] = useState<string[]>(defaultData?.images);
   const [images, setImages] = useState<File[]>([]);
   const [openAccountDetail, setOpenAccountDetail] = useState(false);
 
@@ -32,7 +32,7 @@ export function UpdateSubsPlanForm({ defaultData }: { defaultData: ProductType }
   };
 
   const removeImg = useCallback((indxParam: number) => {
-    const finalImgs = images?.filter((i, indx) => {
+    const finalImgs = images?.filter((_, indx) => {
       return indx !== indxParam
     })
     setImages(finalImgs)
@@ -49,11 +49,12 @@ export function UpdateSubsPlanForm({ defaultData }: { defaultData: ProductType }
 
     try {
       const form = new FormData();
-      form.append('name', JSON.stringify(values?.name));
-      form.append('price', JSON.stringify(values?.price));
-      form.append('stock', JSON.stringify(values?.stock));
-      form.append('details', JSON.stringify(values?.details));
-      form.append('existImages', JSON.stringify(dImages));
+      form.append('name', values?.name);
+      form.append('price', values?.price.toString());
+      form.append('stock', values?.stock.toString());
+      form.append('details', values?.details);
+
+      form.append('existImages', JSON.stringify(dImages))
 
       images.forEach((image) => {
         form.append('images', image);
@@ -94,8 +95,6 @@ export function UpdateSubsPlanForm({ defaultData }: { defaultData: ProductType }
         footer={null}
       >
 
-
-
         <Form
           name="basic"
           style={{ width: '100%' }}
@@ -103,7 +102,6 @@ export function UpdateSubsPlanForm({ defaultData }: { defaultData: ProductType }
           onFinish={onFinish}
           autoComplete="off"
           layout="vertical">
-
 
           <section>
             <p className="mb-1.5 block text-primary font-poppins text-base text-left">Product Images</p>

@@ -18,6 +18,8 @@ import App from "../App";
 
 import { AuthWrapper } from "../components/auth-wrapper";
 import Demo from "../pages/demo";
+import { OrderDetails } from "../pages/OrderDetails";
+import OtpVerifyPage from "../pages/OtpVarifyPage";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Dashboard />,
+      },
+      {
+        path: "/orders",
+        element: <OrderDetails />,
       },
       {
         path: "/account-details",
@@ -75,6 +81,14 @@ const router = createBrowserRouter([
     element: (
       <AuthWrapper>
         <Login />,
+      </AuthWrapper>
+    ),
+  },
+  {
+    path: "/otp-verify",
+    element: (
+      <AuthWrapper>
+        <OtpVerifyPage />,
       </AuthWrapper>
     ),
   },

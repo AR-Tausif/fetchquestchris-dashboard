@@ -9,9 +9,11 @@ const baseQuery = fetchBaseQuery({
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
 
-        const state = getState() as { userSlice: { token: { accessToken: string } } };
+        const state = getState() as { userSlice: { token: { accessToken: string, otpToken: string } } };
 
         const token = state?.userSlice?.token?.accessToken
+
+        const otpToken = state?.userSlice?.token?.otpToken
 
         // const token = getFromLocalStorage("accessToken")
         // const token = cookies.get("accessToken");
@@ -19,6 +21,10 @@ const baseQuery = fetchBaseQuery({
         if (token) {
             headers.set("Authorization", `Bearer ${token}`);
         }
+        if (otpToken) {
+            headers.set("token", otpToken);
+        }
+        
         return headers;
     },
 });
@@ -85,7 +91,7 @@ const baseQueryWithReauth: typeof baseQuery = async (
 
 const baseApi = createApi({
     reducerPath: 'api',
-    tagTypes: ["users", "admin", "games", "products"],
+    tagTypes: ["users", "admin", "games", "products", "blogs", "orders", "privacy", "terms", "about"],
     baseQuery: baseQueryWithReauth,
     endpoints: (builder) => ({
         admin_support: builder.mutation<{ message: string }, {

@@ -3,14 +3,14 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface userType {
     user: { name: string | null, email: string | null, phoneNumber: string | null, image: string | null },
-    token: { accessToken: string | null, refreshToken: string | null }
+    token: { accessToken: string | null, refreshToken: string | null, otpToken: string | null }
 }
 
 type addUserType = { name: string, email: string, phoneNumber: string, image: string, accessToken: string, refreshToken: string }
 
 const initialState: userType = {
     user: { name: null, email: null, phoneNumber: null, image: null },
-    token: { accessToken: null, refreshToken: null }
+    token: { accessToken: null, refreshToken: null, otpToken: null }
 }
 
 const userSlice = createSlice({
@@ -26,6 +26,10 @@ const userSlice = createSlice({
             state.token.refreshToken = payload.refreshToken;
         },
 
+        addOtpToken: (state, { payload }: PayloadAction<{ token: string }>) => {
+            state.token.otpToken = payload.token;
+        },
+
         removeUser: (state) => {
             state.user.name = null;
             state.user.email = null;
@@ -39,6 +43,6 @@ const userSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { addUserDetails, removeUser } = userSlice.actions;
+export const { addUserDetails, removeUser, addOtpToken } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -23,7 +23,7 @@ export const DisputedReviewCard = ({
           alt="profile picture"
           className="profile-image"
         />
-        <h5 className="profile-name">{userDetails?.fullName}</h5>
+        <h5 className="profile-name">{userDetails?.name}</h5>
         <p className="profile-email">{userDetails?.email}</p>
       </div>
 

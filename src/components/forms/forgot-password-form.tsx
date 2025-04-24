@@ -1,47 +1,67 @@
-import { Form, Input, notification } from "antd";
-import { PrimaryButton } from "../primary-button";
+import { Button, Form, FormProps, Input } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useForgotPasswordMutation } from "../../redux/api/auth.api";
+import { LucideLoaderCircle } from "lucide-react";
+import { toast } from "react-toastify";
+import { AppDispatch } from "../../redux/store";
+import { useDispatch } from "react-redux";
+import { addOtpToken } from "../../redux/features/auth.slice";
+
+type FieldType = {
+  email: string,
+};
 
 export const ForgotPasswordForm = () => {
-  const [form] = Form.useForm();
-  const [api, contextHolder] = notification.useNotification();
 
-  const openNotification = (data: Record<string, unknown>) => {
-    const b = {
-      ...data,
-    };
-    api.open({
-      message: "Service Updated succesfully",
-      description: (
-        <pre>
-          <code>{JSON.stringify(b)}.</code>
-        </pre>
-      ),
-      duration: 2,
-    });
-  };
+  const [postForgot, { isLoading }] = useForgotPasswordMutation();
+
   const navigate = useNavigate();
-  const onFinish = (values: Record<string, unknown>) => {
-    // console.log(values);
-    openNotification(values);
-    // console.log("Received values of form: ", values);
-    navigate("/set-password");
+  const dispatch = useDispatch<AppDispatch>();
+
+  const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
+
+    try {
+      const res = await postForgot(values).unwrap()
+      dispatch(addOtpToken({
+        token: res?.data?.token
+      }))
+      toast.success(res?.message || "One otp send you email, check now")
+      navigate("/otp-verify");
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Something went wrong, try again")
+    }
   };
   return (
     <>
-      {contextHolder}
-      <Form form={form} layout="vertical" onFinish={onFinish}>
+
+      <Form
+        name="basic"
+        style={{ width: '100%' }}
+        // initialValues={}
+        onFinish={onFinish}
+        autoComplete="off"
+        layout="vertical"
+      >
         <Form.Item
           label="Email"
           name="email"
-          rules={[{ message: "Please input the current email of collection!" }]}
+          rules={[{ required: true, message: "Please input the current email of collection!" }]}
         >
           <Input type="email" placeholder="Enter Your Email" />
         </Form.Item>
 
-        <PrimaryButton type="submit" styles={{ width: "100%" }}>
-          Send Code
-        </PrimaryButton>
+        <Form.Item>
+          <Button
+            htmlType="submit"
+            type="primary"
+            size="large"
+            block
+            icon={isLoading ? <LucideLoaderCircle className="animate-spin text-white !mt-1" /> : <></>}
+            iconPosition="end"
+          >
+            Submit
+          </Button>
+        </Form.Item>
       </Form>
     </>
   );

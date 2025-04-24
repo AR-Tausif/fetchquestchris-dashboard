@@ -21,6 +21,11 @@ const sidebarItems: MenuItem[] = [
     label: "Dashboard",
   },
   {
+    key: "9",
+    icon: <TeamOutlined />,
+    label: "Orders",
+  },
+  {
     key: "2",
     icon: <TeamOutlined />,
     label: "Accounts Details",

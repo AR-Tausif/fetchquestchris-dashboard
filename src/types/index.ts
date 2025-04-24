@@ -9,7 +9,7 @@ export interface IUserDetails {
   "name": string,
   createdAt: Date,
   updatedAt: Date,
-  status : 1 | 0
+  status: 1 | 0
 }
 
 export type meta = {
@@ -19,7 +19,7 @@ export type meta = {
   "totalPage": number
 }
 
-export type GameType =  {
+export type GameType = {
   "_id": string,
   "name": string,
   "image": string,
@@ -27,7 +27,7 @@ export type GameType =  {
   "description": string,
   "createdAt": Date,
   "updatedAt": Date,
-  link : string
+  link: string
   "__v": 0
 }
 
@@ -40,6 +40,38 @@ export type ProductType = {
   "stock": number,
   "category": string,
   "isDeleted": boolean,
+  "createdAt": Date,
+  "updatedAt": Date,
+  "__v": 0
+}
+
+export type BlogType = {
+  "_id": string,
+  "name": string,
+  "image": string,
+  "description": string,
+  "createdAt": Date,
+  "updatedAt": Date,
+  "__v": 0
+}
+
+export type OrderProductType = {
+  "id": ProductType,
+  "quantity": number,
+  "_id": "6809f063ba9efa46467b1f10"
+}
+
+export type OrderType = {
+  "_id": "6809f063ba9efa46467b1f0f",
+  "user": IUserDetails,
+  "products": OrderProductType[],
+  "total_amount": number,
+  "address": string,
+  "contact": string,
+  "isPaid": boolean,
+  "isDeleted": boolean,
+  "tranId": string,
+  "status": "pending" | "cancle" | "delete",
   "createdAt": Date,
   "updatedAt": Date,
   "__v": 0

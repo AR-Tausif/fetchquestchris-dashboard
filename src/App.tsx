@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  BellOutlined,
   CodeSandboxOutlined,
   LoginOutlined,
   MenuFoldOutlined,
@@ -13,7 +12,6 @@ import {
 } from "@ant-design/icons";
 import {
   Avatar,
-  Badge,
   Button,
   Dropdown,
   Flex,
@@ -27,6 +25,12 @@ import { Logo } from "./components";
 import "./App.css";
 import "./antd-overwrite.css";
 import { BlogIcon } from "./components/icons";
+import { useMyProfileQuery } from "./redux/api/auth.api";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "./redux/store";
+import { removeUser } from "./redux/features/auth.slice";
+import Private from "./components/private/Private";
 
 // Updated sidebarItems with proper nested structure
 const sidebarItems = [
@@ -35,6 +39,12 @@ const sidebarItems = [
     icon: <PieChartOutlined />,
     label: "Dashboard",
     path: "/",
+  },
+  {
+    key: "/orders",
+    icon: <BlogIcon />,
+    label: "Orders",
+    path: "/orders",
   },
   {
     key: "/account-details",
@@ -60,7 +70,7 @@ const sidebarItems = [
     label: "Products",
     path: "/product-price",
   },
-  
+
   {
     key: "/Setting",
     icon: <SettingOutlined />,
@@ -81,10 +91,10 @@ const sidebarItems = [
     ],
   },
   {
-    key: "/login",
+    key: "/logout",
     icon: <LoginOutlined />,
     label: "Logout",
-    path: "/login",
+    // path: "/login",
   },
 ];
 
@@ -97,7 +107,20 @@ const App: React.FC = () => {
   } = theme.useToken();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-console.log(pathname);
+
+  const { data, isSuccess } = useMyProfileQuery({});
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const onClick = (e: { key: string }) => {
+    if (e.key === "/logout") {
+      dispatch(removeUser())
+      toast.success("Logout successful");
+      navigate('/login')
+    }
+  };
+
+
   // Function to recursively transform menu items
   const transformMenuItem = (item: any) => {
     const transformed = { ...item };
@@ -138,79 +161,81 @@ console.log(pathname);
   ];
 
   return (
-    <Layout style={{ minHeight: "100vh" }} className="app-layout">
-      <Sider
-        // collapsible
-        breakpoint="md"
-        // width={320}
-        collapsed={collapsed}
-        style={{
-          paddingInline: `${!collapsed ? "10px" : "4px"}`,
-          paddingBlock: "30px",
-          backgroundColor: "white",
-          overflow: "auto",
-        }}
-        theme="light"
-        onBreakpoint={(broken) => {
-          console.log({ broken });
-          setCollapsed(broken);
-        }}
-        onCollapse={() => {
-          // console.log(collapsed, type);
-        }}
-        className={collapsed ? "" : "myClass"}
-      >
-        <div
-          className="demo-logo-vertical"
+    <Private>
+      <Layout style={{ minHeight: "100vh" }} className="app-layout">
+        <Sider
+          // collapsible
+          breakpoint="md"
+          // width={320}
+          collapsed={collapsed}
           style={{
-            height: "200px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            paddingInline: `${!collapsed ? "10px" : "4px"}`,
+            paddingBlock: "30px",
+            backgroundColor: "white",
+            overflow: "auto",
           }}
-        >
-          <Link to="/">
-            <Logo />
-          </Link>
-        </div>
-        <Menu
           theme="light"
-          mode="inline"
-          defaultSelectedKeys={[pathname]}
-          items={transformedSidebarItems}
-        />
-      </Sider>
-
-      {/* Rest of your layout code remains the same */}
-      <Layout>
-        <Header
-          style={{
-            padding: "12px",
-            background: colorBgContainer,
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
+          onBreakpoint={(broken) => {
+            console.log({ broken });
+            setCollapsed(broken);
           }}
+          onCollapse={() => {
+            // console.log(collapsed, type);
+          }}
+          className={collapsed ? "" : "myClass"}
         >
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <Button
-              type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              style={{
-                fontSize: "16px",
-                width: 64,
-                height: 64,
-              }}
-            />
-            <h2>Dashboard</h2>
+          <div
+            className="demo-logo-vertical"
+            style={{
+              height: "200px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Link to="/">
+              <Logo />
+            </Link>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 25 }}>
-              <div
-                style={{ fontSize: 18, display: "flex", alignItems: "center" }}
-              >
-                <Link to="/notification">
+          <Menu
+            theme="light"
+            mode="inline"
+            defaultSelectedKeys={[pathname]}
+            items={transformedSidebarItems}
+            onClick={onClick}
+          />
+        </Sider>
+
+        {/* Rest of your layout code remains the same */}
+        <Layout>
+          <Header
+            style={{
+              padding: "12px",
+              background: colorBgContainer,
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <Button
+                type="text"
+                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                onClick={() => setCollapsed(!collapsed)}
+                style={{
+                  fontSize: "16px",
+                  width: 64,
+                  height: 64,
+                }}
+              />
+              <h2>Dashboard</h2>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 25 }}>
+                <div
+                  style={{ fontSize: 18, display: "flex", alignItems: "center" }}
+                >
+                  {/* <Link to="/notification">
                   <Badge count={5} offset={[0.1, 5]}>
                     <BellOutlined
                       style={{
@@ -220,33 +245,39 @@ console.log(pathname);
                       }}
                     />
                   </Badge>
-                </Link>
+                </Link> */}
+                </div>
+                <Dropdown menu={{ items }} trigger={["click"]}>
+                  <Flex>
+                    <Avatar
+                      style={{ backgroundColor: "#87d068" }}
+                      icon={<UserOutlined />}
+                      size={40}
+                      src={data?.data?.image}
+                    />
+                  </Flex>
+                </Dropdown>
               </div>
-              <Dropdown menu={{ items }} trigger={["click"]}>
-                <Flex>
-                  <Avatar
-                    style={{ backgroundColor: "#87d068" }}
-                    icon={<UserOutlined />}
-                    size={40}
-                  />
-                </Flex>
-              </Dropdown>
+              <p style={{ fontWeight: 600 }}>{isSuccess ? data?.data?.name : "unknown"}</p>
             </div>
-            <p style={{ fontWeight: 600 }}>Natederwin</p>
-          </div>
-        </Header>
-        <Content
-          style={{
-            padding: 24,
-            minHeight: 280,
-            background: "#CACACA",
-            borderTopLeftRadius: 10,
-          }}
-        >
-          <Outlet />
-        </Content>
+          </Header>
+          <Content
+            style={{
+              padding: 24,
+              minHeight: 280,
+              background: "#CACACA",
+              borderTopLeftRadius: 10,
+            }}
+          >
+
+
+            <Outlet />
+
+
+          </Content>
+        </Layout>
       </Layout>
-    </Layout>
+    </Private>
   );
 };
 

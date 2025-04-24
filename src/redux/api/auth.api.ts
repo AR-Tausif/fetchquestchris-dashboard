@@ -23,6 +23,33 @@ const authApi = baseApi.injectEndpoints({
       providesTags: ["users"],
     }),
 
+    verifyOtp: builder.mutation<{ message: string }, { otp: string }>({
+      query: ({ otp }) => ({
+        url: '/auth/verify-otp',
+        method: 'POST',
+        body: { otp },
+      })
+    }),
+
+    forgotPassword: builder.mutation<{ message: string, data: { token: string } }, { email: string }>({
+      query: ({ email }) => ({
+        url: '/auth/forgot-password',
+        method: 'POST',
+        body: { email },
+      }),
+    }),
+
+    resetPassword: builder.mutation({
+      query: ({ newPassword, confirmPassword }) => ({
+        url: '/auth/reset-password',
+        method: 'POST',
+        body: {
+          "newPassword": newPassword,
+          "confirmPassword": confirmPassword
+        }
+      }),
+    }),
+
     deleteUserById: builder.mutation({
       query: (userId) => ({
         url: `/user/deleting-user/${userId}`,
@@ -40,14 +67,31 @@ const authApi = baseApi.injectEndpoints({
       invalidatesTags: ["users"],
     }),
 
-    makeAdminUserById: builder.mutation({
-      query: (userId) => ({
-        url: `/user/make-admin/${userId}`,
-        method: "PATCH",
+    myProfile: builder.query<{ message: string, data: IUserDetails }, {}>({
+      query: (query) => ({
+        url: '/users/my-profile',
+        method: 'GET',
+        params: query
       }),
-      invalidatesTags: ["users"],
+      providesTags: ['admin']
     }),
 
+    changePassword: builder.mutation({
+      query: (data) => ({
+        url: '/auth/change-password',
+        method: 'PATCH',
+        body: data
+      }),
+    }),
+
+    updateProfile: builder.mutation({
+      query: ({ data }) => ({
+        url: '/users/update-my-profile',
+        method: 'PATCH',
+        body: data
+      }),
+      invalidatesTags: ['admin']
+    }),
 
   }),
 });
@@ -55,7 +99,12 @@ const authApi = baseApi.injectEndpoints({
 export const {
   useGetAllUserQuery,
   useDeleteUserByIdMutation,
-  useMakeAdminUserByIdMutation,
   useLoginAdminMutation,
-  useBlockUserMutation
+  useBlockUserMutation,
+  useMyProfileQuery,
+  useUpdateProfileMutation,
+  useChangePasswordMutation,
+  useForgotPasswordMutation,
+  useVerifyOtpMutation,
+  useResetPasswordMutation
 } = authApi;

@@ -1,7 +1,5 @@
-import { Modal, Pagination, Popconfirm, Table, TableColumnsType, Tooltip } from "antd";
-import { useState } from "react";
-import { DeleteOutlined, EyeInvisibleOutlined, UserDeleteOutlined } from "@ant-design/icons";
-import { DeleteActionButtons } from "../cards/delete-action-card";
+import { Pagination, Popconfirm, Table, TableColumnsType, Tooltip } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import { UpdateSubsPlanForm } from "../forms";
 import { meta, ProductType } from "../../types";
 import { Image } from 'antd';
@@ -10,9 +8,6 @@ import { toast } from "react-toastify";
 import { useDeleteProductMutation } from "../../redux/api/product.api";
 
 export const ProductListTable = ({ isLoading, data, setCurrentPage, currentPage, meta }: { isLoading: boolean, data: ProductType[] | undefined, setCurrentPage: React.Dispatch<React.SetStateAction<number>>, currentPage: number, meta: meta | undefined }) => {
-
-   
-    const [deleteUser, setDeleteUser] = useState(false);
 
     const [postDelete] = useDeleteProductMutation()
 
@@ -114,12 +109,6 @@ export const ProductListTable = ({ isLoading, data, setCurrentPage, currentPage,
                 footer={() => <div>
                     <Pagination defaultCurrent={currentPage} total={meta?.total} pageSize={10} hideOnSinglePage align="end" showSizeChanger={false} onChange={(page) => setCurrentPage(page)} />
                 </div>}
-            />
-            
-            <DeleteActionButtons
-                open={deleteUser}
-                onConfirm={() => setDeleteUser(false)}
-                onCancel={() => setDeleteUser(false)}
             />
         </>
     );
