@@ -108,6 +108,7 @@ export const GameListTable = ({ isLoading, data, setCurrentPage, currentPage, me
         loading={isLoading}
         size="middle"
         style={styles.table}
+        rowKey={(data) => data?._id}
         footer={() => <div>
           <Pagination defaultCurrent={currentPage} total={meta?.total} pageSize={10} hideOnSinglePage align="end" showSizeChanger={false} onChange={(page) => setCurrentPage(page)} />
         </div>}

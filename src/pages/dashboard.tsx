@@ -1,4 +1,4 @@
-import { Card, Col, Row, Select, theme } from "antd";
+import { Card, Col, Row, theme } from "antd";
 import {
   DashboardStatusCard,
   DashboardAreaChart,
@@ -6,14 +6,19 @@ import {
   DashboardTable,
 } from "../components";
 import "./styles/dashboard.css";
-import {UserOutlined } from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 import "./styles/dashboard-tables.css";
+import { useCountsDataQuery } from "../redux/api/baseApi";
 const { useToken } = theme
 
 export const Dashboard = () => {
   // and design tokens
   const { token } = useToken();
-  const handleChange = () => { };
+
+  const { data } = useCountsDataQuery({}, { refetchOnMountOrArgChange: true });
+
+  const countData = data?.data;
+
   return (
     <Row
       gutter={[0, 16]}
@@ -26,7 +31,7 @@ export const Dashboard = () => {
             <DashboardStatusCard
               icon={<UserOutlined style={{ fontSize: token.fontSize * 2.5, color: token.colorTextBase }} />}
               title="Total Users"
-              desc="218"
+              desc={countData?.totalUsers || "0"}
             />
           </Col>
         </Row>
@@ -42,30 +47,6 @@ export const Dashboard = () => {
                 border: "none",
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <h5 style={{ fontWeight: 400, fontSize: token.fontSize * 1.25, color: token.colorText }}>
-                  User Overview
-                </h5>
-                <Select
-                  defaultValue="2025"
-                  className="w-[120px] b-none outline-none"
-                  style={{
-                    color: token.colorText,
-                  }}
-                  onChange={handleChange}
-                  options={[
-                    { value: "2024", label: "2024" },
-                    { value: "2025", label: "2025" },
-                    { value: "2026", label: "2026" },
-                  ]}
-                />
-              </div>
               <DashboardAreaChart />
             </Card>
           </Col>
@@ -77,32 +58,7 @@ export const Dashboard = () => {
                 border: "none",
               }}
             >
-              <div
-                className="flex justify-between items-center"
-              >
-                <h5 style={{ fontWeight: 400, fontSize: token.fontSize * 1.25, color: token.colorText }}>
-                  Earning Overview
-                </h5>
-                <div
-                  className="flex items-center gap-10"
-                >
-                  <p
-                    style={{ fontWeight: 400, fontSize: token.fontSize * 0.875, color: token.colorText }}
-                  >
-                    Monthly Growth: 35.80%
-                  </p>
-                  <Select
-                    defaultValue="2025"
-                    style={{ width: 120, border: "none", outline: "none" }}
-                    onChange={handleChange}
-                    options={[
-                      { value: "2024", label: "2024" },
-                      { value: "2025", label: "2025" },
-                      { value: "2026", label: "2026" },
-                    ]}
-                  />
-                </div>
-              </div>
+              
               <DashboardColumnChart />
             </Card>
           </Col>

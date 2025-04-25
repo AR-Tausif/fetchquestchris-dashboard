@@ -24,7 +24,7 @@ const baseQuery = fetchBaseQuery({
         if (otpToken) {
             headers.set("token", otpToken);
         }
-        
+
         return headers;
     },
 });
@@ -107,10 +107,45 @@ const baseApi = createApi({
             }),
         }),
 
+        countsData: builder.query<{ data: { totalUsers: string } }, {}>({
+            query: (query) => ({
+                url: '/dashboard/count',
+                method: 'GET',
+                params: query
+            }),
+        }),
+
+        userChartData: builder.query<{
+            data: {
+                "month": string,
+                "total": number
+            }[]
+        }, { JoinYear: number }>({
+            query: (query) => ({
+                url: '/dashboard/userChart',
+                method: 'GET',
+                params: query
+            }),
+        }),
+
+        earningChartData: builder.query<{
+            data: {
+                "month": string,
+                "income": number
+            }[]
+        }, { incomeYear: number }>({
+            query: (query) => ({
+                url: '/dashboard/earningChart',
+                method: 'GET',
+                params: query
+            }),
+        }),
+
+
     })
 });
 
-export const { useAdmin_supportMutation } = baseApi;
+export const { useAdmin_supportMutation, useCountsDataQuery, useEarningChartDataQuery, useUserChartDataQuery } = baseApi;
 export default baseApi;
 
 

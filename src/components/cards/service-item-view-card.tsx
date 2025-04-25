@@ -55,9 +55,57 @@ export default function GameItemViewCard({ defaultData }: { defaultData: GameTyp
         open={openAccountDetail}
         title={"Edit Game Details"}
         onOk={() => setOpenAccountDetail(false)}
-        onCancel={() => setOpenAccountDetail(false)}
+        onCancel={() => {
+          setImage(null)
+          setOpenAccountDetail(false)
+        }}
         footer={null}
       >
+
+        <div className="w-full">
+
+          <label htmlFor="image">
+            <div
+              className="text-primary my-4 mb-8 flex h-20 w-full items-center justify-center rounded-lg border border-gray-400 hover:cursor-pointer"
+            >
+              <div className="flex flex-col items-center justify-center">
+                <CloudUpload size={32} color="gray" />
+                <p className="font-semibold text-gray-500">Upload image</p>
+              </div>
+            </div>
+          </label>
+
+          <input
+            type="file"
+            id="image"
+            style={{ display: "none" }}
+            accept="image/*"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) {
+                setImage(file);
+              }
+            }}
+          />
+
+          <div
+            className="text-primary flex w-full items-center justify-between border border-gray-700 px-2 py-3"
+          >
+            <img
+              src={
+                image
+                  ? URL.createObjectURL(image)
+                  : (defaultData && 'image' in defaultData
+                    ? defaultData.image
+                    : '/empty-photo.jpg')
+              }
+              alt="logo"
+              className="mx-auto h-full max-h-10 w-auto rounded"
+            />
+          </div>
+
+        </div>
+
         <Form
           name="basic"
           style={{ width: '100%' }}
@@ -65,52 +113,6 @@ export default function GameItemViewCard({ defaultData }: { defaultData: GameTyp
           onFinish={onFinish}
           autoComplete="off"
           layout="vertical">
-
-
-          <div className="w-full">
-
-            <label htmlFor="image">
-              <div
-                className="text-primary my-4 mb-8 flex h-20 w-full items-center justify-center rounded-lg border border-gray-400 hover:cursor-pointer"
-              >
-                <div className="flex flex-col items-center justify-center">
-                  <CloudUpload size={32} color="gray" />
-                  <p className="font-semibold text-gray-500">Upload image</p>
-                </div>
-              </div>
-            </label>
-
-            <input
-              type="file"
-              id="image"
-              style={{ display: "none" }}
-              accept="image/*"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) {
-                  setImage(file);
-                }
-              }}
-            />
-
-            <div
-              className="text-primary flex w-full items-center justify-between border border-gray-700 px-2 py-3"
-            >
-              <img
-                src={
-                  image
-                    ? URL.createObjectURL(image)
-                    : (defaultData && 'image' in defaultData
-                      ? defaultData.image
-                      : '/empty-photo.jpg')
-                }
-                alt="logo"
-                className="mx-auto h-full max-h-10 w-auto rounded"
-              />
-            </div>
-
-          </div>
-
 
           <Form.Item<FieldType>
             label="Game name"

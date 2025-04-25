@@ -106,6 +106,7 @@ export const ProductListTable = ({ isLoading, data, setCurrentPage, currentPage,
                 dataSource={data}
                 size="middle"
                 style={styles.table}
+                rowKey={(data) => data?._id}
                 footer={() => <div>
                     <Pagination defaultCurrent={currentPage} total={meta?.total} pageSize={10} hideOnSinglePage align="end" showSizeChanger={false} onChange={(page) => setCurrentPage(page)} />
                 </div>}

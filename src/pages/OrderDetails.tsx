@@ -282,6 +282,7 @@ export const OrderList = ({ isLoading, data, setCurrentPage, currentPage, meta }
                     expandedRowRender: (record) => <ExpandedRowRender data={record?.products} />,
                     // rowExpandable: (record) => record?.description !== null,
                 }}
+                rowKey={(data) => data?._id}
                 size="middle"
                 style={styles.table}
                 footer={() => <div>

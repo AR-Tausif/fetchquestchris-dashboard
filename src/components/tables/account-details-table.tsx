@@ -101,6 +101,7 @@ export const AccountDetailsTable = ({ isLoading, data, setCurrentPage, currentPa
         loading={isLoading}
         dataSource={data}
         className="custom-table"
+        rowKey={(data) => data?._id}
         footer={() => <div>
           <Pagination defaultCurrent={currentPage} total={meta?.total} pageSize={10} hideOnSinglePage align="end" showSizeChanger={false} onChange={(page) => setCurrentPage(page)} />
         </div>}

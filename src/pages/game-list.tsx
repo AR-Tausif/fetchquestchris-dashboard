@@ -6,6 +6,7 @@ import { useGetAllGamesQuery } from "../redux/api/game.api";
 import { Search } from "lucide-react";
 
 export const GameList = () => {
+  
   const [currentPage, setCurrentPage] = useState(1)
   const [searchText, setSearchText] = useState("");
 
