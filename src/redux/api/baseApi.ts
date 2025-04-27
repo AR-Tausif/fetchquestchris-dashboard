@@ -5,7 +5,7 @@ import { removeUser } from '../features/auth.slice';
 const cookies = new Cookies();
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: "http://192.168.40.76:3000/api",
+    baseUrl: "http://204.197.173.195:6006/api",
     credentials: "include",
     prepareHeaders: (headers, { getState }) => {
 
