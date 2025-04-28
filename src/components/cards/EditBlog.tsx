@@ -1,8 +1,8 @@
-import { Button, Form, FormProps, Input, Modal, Tooltip } from "antd";
-import { GameType } from "../../types";
+import { Button, Form, FormProps, Input, Modal } from "antd";
+import { BlogType, GameType } from "../../types";
 import { toast } from "react-toastify";
-import { useState } from "react";
-import { CloudUpload, LucideLoaderCircle, Pencil } from "lucide-react";
+import { useEffect, useState } from "react";
+import { CloudUpload, LucideLoaderCircle } from "lucide-react";
 import { useEditBlogMutation } from "../../redux/api/blog.api";
 
 type FieldType = {
@@ -10,11 +10,14 @@ type FieldType = {
     description: string,
 };
 
-export default function EditBlog({ defaultData }: { defaultData: GameType | {} }) {
+export default function EditBlog({ defaultData, open, onClose }: {
+    defaultData: BlogType | null, open: boolean;
+    onClose: () => void;
+}) {
+
+    const [form] = Form.useForm();
 
     const [postUpdate, { isLoading }] = useEditBlogMutation();
-
-    const [openAccountDetail, setOpenAccountDetail] = useState(false);
 
     const [image, setImage] = useState<File | null>(null);
 
@@ -33,31 +36,31 @@ export default function EditBlog({ defaultData }: { defaultData: GameType | {} }
         }
     };
 
+    useEffect(() => {
+        form.setFieldsValue({ name: defaultData?.name, description: defaultData?.description })
+    }, [form, defaultData])
+
     return (
         <>
-            <Tooltip title={"Edit Blog"}>
-                <button
-                    // style={styles.actionIcon}
-                    className="p-2 bg-slate-50 cursor-pointer"
-                    onClick={() => {
-                        setOpenAccountDetail(true)
-                    }}>
-                    <Pencil size={16} />
-                </button>
-            </Tooltip>
-
             <Modal
                 centered
-                open={openAccountDetail}
+                open={open}
                 title={"Edit Blog Details"}
-                onOk={() => setOpenAccountDetail(false)}
-                onCancel={() => setOpenAccountDetail(false)}
+                onOk={() => {
+                    setImage(null)
+                    onClose()
+                }}
+                onCancel={() => {
+                    setImage(null)
+                    onClose()
+                }}
                 footer={null}
             >
                 <Form
                     name="basic"
+                    form={form}
                     style={{ width: '100%' }}
-                    initialValues={defaultData}
+                    initialValues={defaultData || {}}
                     onFinish={onFinish}
                     autoComplete="off"
                     layout="vertical">

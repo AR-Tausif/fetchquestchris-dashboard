@@ -14,7 +14,7 @@ export const OrderDetails = () => {
         query["searchTerm"] = searchText;
     }
 
-    const { isLoading, data } = useGetAllOrdersQuery(query)
+    const { isLoading, data, isSuccess } = useGetAllOrdersQuery(query)
 
     const { token } = theme.useToken()
 
@@ -80,7 +80,7 @@ export const OrderDetails = () => {
                 </div>
             </div>
 
-            <OrderList isLoading={isLoading} data={data?.data?.data} setCurrentPage={setCurrentPage} currentPage={currentPage} meta={data?.meta} />
+            <OrderList isLoading={isLoading || isSuccess} data={data?.data?.data} setCurrentPage={setCurrentPage} currentPage={currentPage} meta={data?.meta} />
         </div>
     );
 };

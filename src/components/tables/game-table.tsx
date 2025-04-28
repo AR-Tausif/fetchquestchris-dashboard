@@ -5,10 +5,15 @@ import { GameType, meta } from "../../types";
 import moment from "moment";
 import { toast } from "react-toastify";
 import { useDeleteGameMutation } from "../../redux/api/game.api";
+import { useState } from "react";
+import { Pencil } from "lucide-react";
 
 export const GameListTable = ({ isLoading, data, setCurrentPage, currentPage, meta }: { isLoading: boolean, data: GameType[] | undefined, setCurrentPage: React.Dispatch<React.SetStateAction<number>>, currentPage: number, meta: meta | undefined }) => {
 
-  const [postDelete] = useDeleteGameMutation()
+  const [postDelete] = useDeleteGameMutation();
+
+  const [openModal, setModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<GameType | null>(null);
 
   const handleDeleteGame = async (id: string) => {
     const loadingToast = toast.loading("loading....");
@@ -75,9 +80,20 @@ export const GameListTable = ({ isLoading, data, setCurrentPage, currentPage, me
       align: "center",
       render: (_, record) => (
         <div style={styles.actionContainer}>
-          
-            <GameItemViewCard defaultData={record} />
 
+          <Tooltip title={"Edit Game"}>
+            <button
+              // style={styles.actionIcon}
+              className="cursor-pointer"
+              onClick={() => {
+                setSelectedItem(record);
+                setModalOpen(true);
+              }}
+            >
+              <Pencil size={16} />
+
+            </button>
+          </Tooltip>
 
           <Popconfirm
             title={"Delete"}
@@ -112,6 +128,12 @@ export const GameListTable = ({ isLoading, data, setCurrentPage, currentPage, me
         footer={() => <div>
           <Pagination defaultCurrent={currentPage} total={meta?.total} pageSize={10} hideOnSinglePage align="end" showSizeChanger={false} onChange={(page) => setCurrentPage(page)} />
         </div>}
+      />
+
+      <GameItemViewCard
+        defaultData={selectedItem}
+        open={openModal}
+        onClose={() => setModalOpen(false)}
       />
 
 

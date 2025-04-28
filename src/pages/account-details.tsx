@@ -15,7 +15,7 @@ export const AccountDetails = () => {
     query["searchTerm"] = searchText;
   }
 
-  const { isLoading, data } = useGetAllUserQuery(query)
+  const { isLoading, data, isFetching } = useGetAllUserQuery(query)
 
   return (
     <div>
@@ -28,7 +28,7 @@ export const AccountDetails = () => {
         />
       </div>
 
-      <AccountDetailsTable isLoading={isLoading} data={data?.data?.data} setCurrentPage={setCurrentPage} currentPage={currentPage} meta = {data?.meta} />
+      <AccountDetailsTable isLoading={isLoading || isFetching} data={data?.data?.data} setCurrentPage={setCurrentPage} currentPage={currentPage} meta = {data?.meta} />
 
     </div>
   );

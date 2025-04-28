@@ -16,7 +16,7 @@ export const GameList = () => {
     query["searchTerm"] = searchText;
   }
 
-  const { isLoading, data } = useGetAllGamesQuery(query)
+  const { isLoading, data, isFetching } = useGetAllGamesQuery(query)
   
 
   const [openResponsive, setOpenResponsive] = useState(false);
@@ -88,7 +88,7 @@ export const GameList = () => {
         />
       </div>
 
-      <GameListTable  isLoading={isLoading} data={data?.data?.data} setCurrentPage={setCurrentPage} currentPage={currentPage} meta = {data?.meta} />
+      <GameListTable  isLoading={isLoading || isFetching} data={data?.data?.data} setCurrentPage={setCurrentPage} currentPage={currentPage} meta = {data?.meta} />
 
       <Modal
         centered

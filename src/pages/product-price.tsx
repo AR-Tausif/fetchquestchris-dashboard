@@ -1,5 +1,5 @@
-import { PlusCircleOutlined } from "@ant-design/icons";
-import { Input, Modal, theme } from "antd";
+
+import { Input, theme } from "antd";
 import { ProductListTable } from "../components";
 import { useState } from "react";
 import { CreateSubsPlanForm } from "../components/forms/create-subs-plan-form";
@@ -17,9 +17,7 @@ export const ProductPrice = () => {
         query["searchTerm"] = searchText;
     }
 
-    const { isLoading, data } = useGetAllProductsQuery(query)
-
-    const [openResponsive, setOpenResponsive] = useState(false);
+    const { isLoading, data, isFetching } = useGetAllProductsQuery(query)
 
     const { token } = theme.useToken()
 
@@ -74,10 +72,9 @@ export const ProductPrice = () => {
 
     return (
         <div style={styles.container}>
-            <div style={styles.addButton} onClick={() => setOpenResponsive(true)}>
-                <PlusCircleOutlined style={styles.icon} />
-                <p>Add new Product</p>
-            </div>
+
+            <CreateSubsPlanForm />
+
             <div>
                 <div className="w-1/3 ml-auto py-5">
                     <Input
@@ -89,17 +86,8 @@ export const ProductPrice = () => {
                 </div>
             </div>
 
-            <ProductListTable isLoading={isLoading} data={data?.data?.data} setCurrentPage={setCurrentPage} currentPage={currentPage} meta={data?.meta} />
-            <Modal
-                centered
-                open={openResponsive}
-                onOk={() => setOpenResponsive(false)}
-                onCancel={() => setOpenResponsive(false)}
-                width={styles.modalWidth}
-                footer={null}
-            >
-                <CreateSubsPlanForm />
-            </Modal>
+            <ProductListTable isLoading={isLoading || isFetching} data={data?.data?.data} setCurrentPage={setCurrentPage} currentPage={currentPage} meta={data?.meta} />
+
         </div>
     );
 };

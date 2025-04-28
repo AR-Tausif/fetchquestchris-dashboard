@@ -1,12 +1,11 @@
 import moment from "moment"
 import { BlogType } from "../../types"
-import { Trash } from "lucide-react"
+import { Pencil, Trash } from "lucide-react"
 import { toast } from "react-toastify"
 import { useDeleteBlogMutation } from "../../redux/api/blog.api"
 import { Popconfirm, Tooltip } from "antd"
-import EditBlog from "./EditBlog"
 
-export const BlogCard = ({ blog }: { blog: BlogType }) => {
+export const BlogCard = ({ blog, setSelectedItem, setModalOpen }: { blog: BlogType, setSelectedItem: React.Dispatch<React.SetStateAction<BlogType | null>>, setModalOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
 
     const [postDelete] = useDeleteBlogMutation()
 
@@ -37,8 +36,20 @@ export const BlogCard = ({ blog }: { blog: BlogType }) => {
                 </div>
             </div>
             <div className="flex flex-row gap-3 items-center absolute top-2 right-2">
-                
-                <EditBlog defaultData={blog}/>
+
+
+
+                <Tooltip title={"Edit Blog"}>
+                    <button
+                        // style={styles.actionIcon}
+                        className="p-2 bg-slate-50 cursor-pointer"
+                        onClick={() => {
+                            setSelectedItem(blog)
+                            setModalOpen(true)
+                        }}>
+                        <Pencil size={16} />
+                    </button>
+                </Tooltip>
 
                 <Popconfirm
                     title={"Delete"}

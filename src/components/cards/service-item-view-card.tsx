@@ -1,9 +1,9 @@
-import { Button, Form, FormProps, Input, Modal, Tooltip } from "antd";
+import { Button, Form, FormProps, Input, Modal } from "antd";
 import { GameType } from "../../types";
 import { useEditGameMutation } from "../../redux/api/game.api";
 import { toast } from "react-toastify";
-import { useState } from "react";
-import { CloudUpload, LucideLoaderCircle, Pencil } from "lucide-react";
+import { useEffect, useState } from "react";
+import { CloudUpload, LucideLoaderCircle } from "lucide-react";
 
 type FieldType = {
   name: string,
@@ -11,16 +11,18 @@ type FieldType = {
   link: string
 };
 
-export default function GameItemViewCard({ defaultData }: { defaultData: GameType | {} }) {
+export default function GameItemViewCard({ defaultData, open, onClose }: {
+  defaultData: GameType | null, open: boolean;
+  onClose: () => void;
+}) {
+
+  const [form] = Form.useForm()
 
   const [postUpdate, { isLoading }] = useEditGameMutation();
-
-  const [openAccountDetail, setOpenAccountDetail] = useState(false);
 
   const [image, setImage] = useState<File | null>(null);
 
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-
     try {
       const form = new FormData();
       form.append('data', JSON.stringify(values));
@@ -34,30 +36,24 @@ export default function GameItemViewCard({ defaultData }: { defaultData: GameTyp
     }
   };
 
+  useEffect(() => {
+    form.setFieldsValue({ name: defaultData?.name, description: defaultData?.description, link: defaultData?.link })
+  }, [form, defaultData])
+
   return (
     <>
-      <Tooltip title={"Edit Game"}>
-        <button
-          // style={styles.actionIcon}
-          className="cursor-pointer"
-          onClick={() => {
-            setOpenAccountDetail(true)
-          }}
-        >
-          {/* <EyeInvisibleOutlined style={styles.icon} /> */}
-          <Pencil size={16} />
-
-        </button>
-      </Tooltip>
 
       <Modal
         centered
-        open={openAccountDetail}
+        open={open}
         title={"Edit Game Details"}
-        onOk={() => setOpenAccountDetail(false)}
+        onOk={() => {
+          setImage(null)
+          onClose()
+        }}
         onCancel={() => {
           setImage(null)
-          setOpenAccountDetail(false)
+          onClose()
         }}
         footer={null}
       >
@@ -108,8 +104,10 @@ export default function GameItemViewCard({ defaultData }: { defaultData: GameTyp
 
         <Form
           name="basic"
+          form={form}
           style={{ width: '100%' }}
-          initialValues={defaultData}
+          initialValues={defaultData || {}}
+          // defaultValue={defaultData || {}}
           onFinish={onFinish}
           autoComplete="off"
           layout="vertical">
@@ -130,6 +128,7 @@ export default function GameItemViewCard({ defaultData }: { defaultData: GameTyp
             rules={[
               { required: true, message: 'Please input website link' },
             ]}
+
           >
             <Input placeholder="https://gameweb.com" />
           </Form.Item>

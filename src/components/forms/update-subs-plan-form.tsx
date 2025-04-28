@@ -1,27 +1,30 @@
-import { Button, Form, FormProps, Input, InputNumber, Modal, Tooltip } from "antd";
+import { Button, Form, FormProps, Input, InputNumber, Modal } from "antd";
 import { ProductType } from "../../types";
-import { LucideLoaderCircle, Pencil, Plus, Trash } from "lucide-react";
+import { LucideLoaderCircle, Plus, Trash } from "lucide-react";
 import { useEditProductMutation } from "../../redux/api/product.api";
 import { toast } from "react-toastify";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 
 type FieldType = {
   name: string;
-  // category : string,
-  // images: string[],
   price: number,
   stock: number,
   details: string,
 };
 
-export function UpdateSubsPlanForm({ defaultData }: { defaultData: ProductType }) {
+export function UpdateSubsPlanForm({ defaultData, open, onClose }: {
+  defaultData: ProductType | null,
+  open: boolean;
+  onClose: () => void;
+}) {
 
   const [postUpdate, { isLoading }] = useEditProductMutation()
 
-  const [dImages, setDImages] = useState<string[]>(defaultData?.images);
+  const [dImages, setDImages] = useState<string[]>(defaultData?.images || []);
   const [images, setImages] = useState<File[]>([]);
-  const [openAccountDetail, setOpenAccountDetail] = useState(false);
+
+  const [form] = Form.useForm()
 
   const fileonChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = e.target.files as File[] | null;
@@ -45,6 +48,10 @@ export function UpdateSubsPlanForm({ defaultData }: { defaultData: ProductType }
     setDImages(finalImgs)
   }
 
+  useEffect(() => {
+    setDImages(defaultData?.images || [])
+  }, [defaultData])
+
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
 
     try {
@@ -60,7 +67,7 @@ export function UpdateSubsPlanForm({ defaultData }: { defaultData: ProductType }
         form.append('images', image);
       });
 
-      await postUpdate({ id: defaultData._id, body: form }).unwrap();
+      await postUpdate({ id: (defaultData as ProductType)._id, body: form }).unwrap();
       toast.success("Product update succesfully");
 
     } catch (err: any) {
@@ -69,36 +76,35 @@ export function UpdateSubsPlanForm({ defaultData }: { defaultData: ProductType }
 
   };
 
+  useEffect(() => {
+    form.setFieldsValue({ name: defaultData?.name, details: defaultData?.details, price: defaultData?.price, stock: defaultData?.stock })
+  }, [form, defaultData])
+
 
   return (
     <>
-      <Tooltip title={"Edit Product"}>
-        <button
-          // style={styles.actionIcon}
-          className="cursor-pointer"
-          onClick={() => {
-            setOpenAccountDetail(true)
-          }}
-        >
-          {/* <EyeInvisibleOutlined style={styles.icon} /> */}
-          <Pencil size={16} />
 
-        </button>
-      </Tooltip>
 
       <Modal
         centered
-        open={openAccountDetail}
+        open={open}
         title={"Edit Product Details"}
-        onOk={() => setOpenAccountDetail(false)}
-        onCancel={() => setOpenAccountDetail(false)}
+        onOk={() => {
+          setImages([])
+          onClose()
+        }}
+        onCancel={() => {
+          setImages([])
+          onClose()
+        }}
         footer={null}
       >
 
         <Form
           name="basic"
+          form={form}
           style={{ width: '100%' }}
-          initialValues={defaultData}
+          initialValues={defaultData || {}}
           onFinish={onFinish}
           autoComplete="off"
           layout="vertical">

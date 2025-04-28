@@ -6,8 +6,31 @@ import { Image } from 'antd';
 import moment from "moment";
 import { toast } from "react-toastify";
 import { useDeleteProductMutation } from "../../redux/api/product.api";
+import React, { useState } from "react";
+import { Pencil } from "lucide-react";
 
 export const ProductListTable = ({ isLoading, data, setCurrentPage, currentPage, meta }: { isLoading: boolean, data: ProductType[] | undefined, setCurrentPage: React.Dispatch<React.SetStateAction<number>>, currentPage: number, meta: meta | undefined }) => {
+
+
+
+    const [selectedItem, setSelectedItem] = useState<ProductType | null>(null);
+    const [openModal, setOpenModal] = useState<boolean>(false)
+
+
+
+    return (
+        <>
+
+            <Producttable isLoading={isLoading} data={data} setCurrentPage={setCurrentPage} currentPage={currentPage} meta={meta} setSelectedItem={setSelectedItem} setOpenModal={setOpenModal} />
+
+            <UpdateSubsPlanForm defaultData={selectedItem} onClose={() => setOpenModal(false)} open={openModal} />
+
+        </>
+    );
+};
+
+
+const Producttable = React.memo(({ isLoading, data, setCurrentPage, currentPage, meta, setSelectedItem, setOpenModal }: { isLoading: boolean, data: ProductType[] | undefined, setCurrentPage: React.Dispatch<React.SetStateAction<number>>, currentPage: number, meta: meta | undefined, setSelectedItem: React.Dispatch<React.SetStateAction<ProductType | null>>, setOpenModal: React.Dispatch<React.SetStateAction<boolean>> }) => {
 
     const [postDelete] = useDeleteProductMutation()
 
@@ -75,8 +98,19 @@ export const ProductListTable = ({ isLoading, data, setCurrentPage, currentPage,
             align: "center",
             render: (_, record) => (
                 <div style={styles.actionContainer}>
-                    <UpdateSubsPlanForm defaultData={record}/>
-                   
+
+                    <Tooltip title={"Edit Product"}>
+                        <button
+                            className="cursor-pointer"
+                            onClick={() => {
+                                setSelectedItem(record)
+                                setOpenModal(true)
+                            }}
+                        >
+                            <Pencil size={16} />
+                        </button>
+                    </Tooltip>
+
 
                     <Popconfirm
                         title={"Delete"}
@@ -99,21 +133,20 @@ export const ProductListTable = ({ isLoading, data, setCurrentPage, currentPage,
     ];
 
     return (
-        <>
-            <Table<ProductType>
-                columns={columns}
-                loading={isLoading}
-                dataSource={data}
-                size="middle"
-                style={styles.table}
-                rowKey={(data) => data?._id}
-                footer={() => <div>
-                    <Pagination defaultCurrent={currentPage} total={meta?.total} pageSize={10} hideOnSinglePage align="end" showSizeChanger={false} onChange={(page) => setCurrentPage(page)} />
-                </div>}
-            />
-        </>
-    );
-};
+        <Table<ProductType>
+            columns={columns}
+            loading={isLoading}
+            dataSource={data}
+            size="middle"
+            style={styles.table}
+            rowKey={(data) => data?._id}
+            footer={() => <div>
+                <Pagination defaultCurrent={currentPage} total={meta?.total} pageSize={10} hideOnSinglePage align="end" showSizeChanger={false} onChange={(page) => setCurrentPage(page)} />
+            </div>}
+        />
+    )
+})
+
 
 // Style object
 const styles = {
